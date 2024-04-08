@@ -25,8 +25,16 @@ class Post extends Model
     /**
      * Get the user that authored the post.
      */
-    public function author()
+    public function user()
     {
         return $this->belongsTo(User::class, 'author_id');
+    }
+
+    /**
+     * The categories that belong to the post.
+     */
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'category_post');
     }
 }
