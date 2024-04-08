@@ -1,5 +1,7 @@
 import { Link, Head } from '@inertiajs/react';
 import { PageProps } from '@/types';
+// @ts-ignore
+import {Button} from "@/Components/ui/button";
 
 export default function Abouts({ auth, laravelVersion, phpVersion }: PageProps<{ laravelVersion: string, phpVersion: string }>) {
     const handleImageError = () => {
@@ -10,8 +12,11 @@ export default function Abouts({ auth, laravelVersion, phpVersion }: PageProps<{
     };
 
     return(
+        <>
         <div>
             Abouts us
         </div>
-    );
+    <Button>click me</Button>
+</>
+);
 }
