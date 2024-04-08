@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PageControleur;
+use App\Http\Controllers\PostControleur;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -19,7 +20,7 @@ Route::get('/abouts', [PageControleur::class, 'abouts'])->name('abouts');
 
 Route::get('/legals', [PageControleur::class, 'legals'])->name('legals');
 
-Route::get('/articles', [PageControleur::class, 'articles'])->name('articles');
+Route::get('/articles', [PostControleur::class, 'index'])->name('articles');
 
 
 Route::get('/dashboard', function () {

@@ -15,9 +15,9 @@ class PageControleur extends Controller
    {
        return Inertia::render('Legals');
    }
-   public function articles()
-   {
-       return Inertia::render('Article');
-   }
+//   public function articles()
+//   {
+//       return Inertia::render('Article');
+//   }
 
 }
