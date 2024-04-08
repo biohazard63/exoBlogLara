@@ -11,5 +11,13 @@ class PageControleur extends Controller
     {
         return Inertia::render('Abouts');
     }
+   public function legals()
+   {
+       return Inertia::render('Legals');
+   }
+   public function articles()
+   {
+       return Inertia::render('Article');
+   }
 
 }

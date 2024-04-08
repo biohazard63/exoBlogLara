@@ -17,6 +17,11 @@ Route::get('/', function () {
 
 Route::get('/abouts', [PageControleur::class, 'abouts'])->name('abouts');
 
+Route::get('/legals', [PageControleur::class, 'legals'])->name('legals');
+
+Route::get('/articles', [PageControleur::class, 'articles'])->name('articles');
+
+
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
