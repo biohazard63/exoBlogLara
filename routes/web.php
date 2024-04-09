@@ -13,8 +13,8 @@ Route::get('/abouts', [PageControleur::class, 'abouts'])->name('abouts');
 
 Route::get('/legals', [PageControleur::class, 'legals'])->name('legals');
 
-Route::get('/articles', [PostControleur::class, 'index'])->name('articles');
-
+Route::get('/articles', [PostControleur::class, 'index']);
+Route::get('/articles/category/{categoryId}', [PostControleur::class, 'getPostsByCategory'])->name('articles.category');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

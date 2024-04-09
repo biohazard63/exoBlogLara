@@ -18,8 +18,7 @@ class PageControleur extends Controller
    }
 public function home()
 {
-    $posts = Post::with('author')->latest()->take(3)->get(); // Récupère les 3 derniers posts avec leurs auteurs
-
+    $posts = Post::with('user')->latest()->take(3)->get();
     return Inertia::render('Welcome', ['articles' => $posts]); // Passe les posts à la vue
 }
 
