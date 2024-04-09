@@ -14,49 +14,50 @@ export default function Article({articles, auth}: PageProps<ArticleProps>) {
     const Layout = auth && auth.user ? AuthenticatedLayout : GuestLayout;
     const [filteredArticles, setFilteredArticles] = useState<ArticleProps['articles']>(articles);
     const [selectedCategory, setSelectedCategory] = useState("");
-const [reloadKey, setReloadKey] = useState(0);
 
-const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const value = event.target.value;
-    setSelectedCategory(value === "" ? "all" : value);
-    if (value === "") {
-        setReloadKey(prevKey => prevKey + 1); // Increment reloadKey when "All categories" is selected
+    const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setSelectedCategory(event.target.value);
     }
-}
 
-useEffect(() => {
-    let url = selectedCategory === "all" ? '/articles' : `/articles/category/${selectedCategory}`;
-    fetch(url)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+    const handleFilterClick = () => {
+        if (selectedCategory === "") {
+            window.location.reload();
+        } else {
+            let url = '/articles';
+            if (selectedCategory) {
+                url = `/articles/category/${selectedCategory}`;
             }
-            return response.json();
-        })
-        .then(data => {
-            console.log(data); // Add this line
-            setFilteredArticles(data.posts);
-        })
-        .catch(error => console.log('Fetch error: ', error));
-}, [selectedCategory, reloadKey]);
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => setFilteredArticles(data.posts))
+                .catch(error => console.log('Fetch error: ', error));
+        }
+    }
 
     return (
         <Layout user={auth.user}>
             <Head title = "Articles" />
             <div className = "container mx-auto px-4" >
-                <select onChange = {handleCategoryChange} >
-                    <option value = "" >All categories</option >
+                <select onChange={handleCategoryChange} className="border-2 border-gray-300 rounded-md p-2 my-2">
+                    <option value = "" >All</option >
                     <option value = "1" >action</option >
                     <option value = "2" >rpg</option >
                     <option value = "3" >fps</option >
                 </select >
+                <button onClick = {handleFilterClick} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Filter</button >
+
                 {filteredArticles ? filteredArticles.map((article) => (
-                    <div key = {article.id} className = "bg-white shadow overflow-hidden sm:rounded-lg my-4" >
-                        <h2 className = "px-4 py-5 sm:px-6 text-xl font-bold" >{article.title}</h2 >
-                        <p className = "px-4 py-5 sm:p-6" >{article.content}</p >
-                        <img src = {article.image} alt = {article.title} className = "w-100" />
+                    <div key = {article.id} className = "bg-white shadow overflow-hidden sm:rounded-lg my-4 p-4" >
+                        <h2 className = "text-xl font-bold mb-2" >{article.title}</h2 >
+                        <p className = "mb-2" >{article.content}</p >
+                        <img src = {article.image} alt = {article.title} className = "w-full" />
                         {article.author &&
-                            <p className = "px-4 py-5 sm:p-6 text-sm text-gray-500" >Author: {article.author}</p >}
+                            <p className = "text-sm text-gray-500 mt-2" >Author: {article.author}</p >}
                     </div >
                 )) : <div className = "text-center py-4" >Loading...</div >}
             </div >

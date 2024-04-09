@@ -23,4 +23,7 @@ public function getPostsByCategory($categoryId)
 
     return response()->json(['posts' => $posts]);
 }
+
+
+
 }
