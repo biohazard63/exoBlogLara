@@ -58,4 +58,21 @@ class PostControleur extends Controller
         return response()->json(['message' => 'Article successfully created', 'post' => $post], 201);
     }
 
+    public function destroy($id)
+{
+    $post = Post::find($id);
+
+    if ($post) {
+        // Dissociez d'abord les catégories associées
+        $post->categories()->detach();
+
+        // Puis supprimez le post
+        $post->delete();
+
+        return response()->json(['message' => 'Article supprimé avec succès'], 200);
+    } else {
+        return response()->json(['message' => 'Article non trouvé'], 404);
+    }
+}
+
 }

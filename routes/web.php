@@ -36,7 +36,9 @@ Route::get('/add-article', [PostControleur::class, 'create'])
 Route::post('/add-article', [PostControleur::class, 'store'])
     ->middleware(['auth', 'verified'])
     ->name('post.store');
-
+Route::delete('/delete-article/{id}', [PostControleur::class, 'destroy'])
+    ->middleware(['auth', 'verified'])
+    ->name('post.destroy');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
