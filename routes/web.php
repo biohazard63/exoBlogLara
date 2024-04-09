@@ -15,6 +15,9 @@ Route::get('/legals', [PageControleur::class, 'legals'])->name('legals');
 
 Route::get('/articles', [PostControleur::class, 'index']);
 Route::get('/articles/category/{categoryId}', [PostControleur::class, 'getPostsByCategory'])->name('articles.category');
+Route::get('/articles/{id}', [PostControleur::class, 'show'])->name('articles.show');
+
+
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

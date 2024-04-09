@@ -24,6 +24,11 @@ public function getPostsByCategory($categoryId)
     return response()->json(['posts' => $posts]);
 }
 
+public function show($id)
+{
+    $post = Post::with('user')->find($id);
 
+    return Inertia::render('SingleArticle', ['article' => $post]);
+}
 
 }
