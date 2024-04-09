@@ -30,6 +30,13 @@ Route::get('/postmanagement', [PageControleur::class, 'postManagement'])
     ->middleware(['auth', 'verified'])
     ->name('postmanagement');
 Route::middleware('auth:sanctum')->get('/posts', [ManagementController::class, 'postManagement']);
+Route::get('/add-article', [PostControleur::class, 'create'])
+    ->middleware(['auth', 'verified'])
+    ->name('add-article');
+Route::post('/add-article', [PostControleur::class, 'store'])
+    ->middleware(['auth', 'verified'])
+    ->name('post.store');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

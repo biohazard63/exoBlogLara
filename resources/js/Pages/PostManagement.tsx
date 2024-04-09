@@ -3,6 +3,8 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import { PageProps } from '@/types';
 import {Button} from "@/Components/ui/button";
+import { InertiaLink } from '@inertiajs/inertia-react';
+
 
 interface Post {
     id: number;
@@ -31,12 +33,14 @@ export default function PostManagement(props: PostManagementProps) {
         >
             <Head title="Post Management" />
 
-            <div className=" ml-9 mt-4 items-center">
-                <Button >add new articles</Button>
-            </div>
+            <div className = " ml-9 mt-4 items-center" >
+                <InertiaLink href = "/add-article" >
+                    <Button >add new articles</Button >
+                </InertiaLink >
+            </div >
 
-            <div className="mt-4 mb-5 max-w-screen max-h-screen overflow-auto">
-                <div className="mx-auto sm:px-6 lg:px-8">
+            <div className = "mt-4 mb-5 max-w-screen max-h-screen overflow-auto" >
+                <div className = "mx-auto sm:px-6 lg:px-8" >
                    <table className="divide-y divide-gray-200">
     <thead className="bg-gray-50">
         <tr>
