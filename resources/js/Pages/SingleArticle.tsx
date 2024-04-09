@@ -12,6 +12,10 @@ interface ArticleProps {
 }
 
 export default function SingleArticle({article, auth}: PageProps<ArticleProps>) {
+    if (!article) {
+        return null; // or a loading spinner, or some placeholder content
+    }
+
     const Layout = auth && auth.user ? AuthenticatedLayout : GuestLayout;
 
     return (
