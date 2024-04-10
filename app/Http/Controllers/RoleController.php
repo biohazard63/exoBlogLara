@@ -13,7 +13,7 @@ class RoleController extends Controller
    public function index()
 {
     // Replace '1' with the id of the 'admin' role in your `roles` table
-    $users = User::where('role_id', 1)->get();
+    $users = User::all();
 
     return Inertia::render('RoleManagement', ['users' => $users]);
 }
