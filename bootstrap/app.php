@@ -14,10 +14,13 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(append: [
             \App\Http\Middleware\HandleInertiaRequests::class,
             \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
+//            \App\Http\Middleware\CheckUserRole::class, // Ajoutez votre middleware ici
+
         ]);
 
         //
     })
+
     ->withExceptions(function (Exceptions $exceptions) {
         //
     })->create();

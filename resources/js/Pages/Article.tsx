@@ -9,7 +9,8 @@ interface ArticleProps {
 
     laravelVersion: string;
     phpVersion: string;
-    articles: Array<{ id: number, title: string, content: string, author: string, image: string }> | undefined;
+    user: any;
+    articles: Array<{ id: number, user: any, title: string, description: string, author: string, image: string }> | undefined;
 }
 
 export default function Article({articles, auth}: PageProps<ArticleProps>) {
@@ -58,10 +59,10 @@ export default function Article({articles, auth}: PageProps<ArticleProps>) {
                     <Link href = {`/articles/${article.id}`} >
     <div key = {article.id} className = "bg-white shadow overflow-hidden sm:rounded-lg my-4 p-4" >
         <h2 className = "text-xl font-bold mb-2" >{article.title}</h2 >
-        <p className = "mb-2" >{article.content}</p >
+        <p className = "mb-2" >{article.description}</p >
         <img src = {article.image} alt = {article.title} className = "w-full" />
-        {article.author &&
-            <p className = "text-sm text-gray-500 mt-2" >Author: {article.author}</p >}
+        {article.user &&
+    <p className = "text-sm text-gray-500 mt-2" >Author: {article.user.name}</p >}
     </div >
 </Link >
                 )) : <div className = "text-center py-4" >Loading...</div >}

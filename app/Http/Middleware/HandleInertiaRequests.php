@@ -4,6 +4,8 @@ namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
 use Inertia\Middleware;
+use Closure;
+
 
 class HandleInertiaRequests extends Middleware
 {
@@ -36,4 +38,12 @@ class HandleInertiaRequests extends Middleware
             ],
         ];
     }
+
+   protected function checkIfAdmin($user): bool
+{
+    // Replace '1' with the id of the 'admin' role in your `roles` table
+    return $user && $user->role_id === 1;
+}
+
+
 }

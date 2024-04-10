@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PageControleur;
 use App\Http\Controllers\PostControleur;
 use App\Http\Controllers\ManagementController;
+use App\Http\Controllers\RoleController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -14,7 +15,7 @@ Route::get('/articles/{id}', [PageControleur::class, 'show'])->name('articles.sh
 Route::get('/abouts', [PageControleur::class, 'abouts'])->name('abouts');
 Route::get('/legals', [PageControleur::class, 'legals'])->name('legals');
 
-Route::get('/articles', [PostControleur::class, 'index']);
+Route::get('/articles', [PostControleur::class, 'index'])->name('articles');
 Route::get('/articles/category/{categoryId}', [PostControleur::class, 'getPostsByCategory'])->name('articles.category');
 Route::get('/articles/{id}', [PostControleur::class, 'show'])->name('articles.show');
 
@@ -45,6 +46,21 @@ Route::put('/edit-article/{id}', [PostControleur::class, 'update'])
 Route::delete('/delete-article/{id}', [PostControleur::class, 'destroy'])
     ->middleware(['auth', 'verified'])
     ->name('post.destroy');
+
+
+Route::get('/role-management', function () {
+    $user = auth()->user();
+    if ($user && $user->role_id === 1) { // Replace '1' with the id of the 'admin' role in your `roles` table
+        return App::make(App\Http\Controllers\RoleController::class)->index();
+    }
+
+    return redirect('/');
+})->name('role-management');
+
+Route::put('/roles/{id}', [RoleController::class, 'update'])
+    ->middleware(['auth', 'verified'])
+    ->name('roles.update');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

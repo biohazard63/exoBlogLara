@@ -30,7 +30,9 @@ export default function Authenticated({ user, header, children }: PropsWithChild
                                     <NavLink href = {route('postmanagement')} active = {route().current('postmanagement')} >
                                         Post management
                                     </NavLink >
-
+                                <NavLink href={route('role-management')} active={route().current('role-management')}>
+                                    Role management
+                                </NavLink>
                             </div >
                         </div >
 
@@ -62,7 +64,10 @@ export default function Authenticated({ user, header, children }: PropsWithChild
                                     </Dropdown.Trigger >
 
                                     <Dropdown.Content >
+                                        <Dropdown.Link href = {route('articles')} >Articles</Dropdown.Link >
                                         <Dropdown.Link href = {route('profile.edit')} >Profile</Dropdown.Link >
+                                        <Dropdown.Link href = {route('abouts')} >Abouts</Dropdown.Link >
+                                        <Dropdown.Link href = {route('legals')} >Mention legals</Dropdown.Link >
                                         <Dropdown.Link href = {route('logout')} method = "post" as = "button" >
                                             Log Out
                                         </Dropdown.Link >
