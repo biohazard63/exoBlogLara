@@ -36,6 +36,12 @@ Route::get('/add-article', [PostControleur::class, 'create'])
 Route::post('/add-article', [PostControleur::class, 'store'])
     ->middleware(['auth', 'verified'])
     ->name('post.store');
+Route::get('/edit-article/{id}', [PostControleur::class, 'edit'])
+    ->middleware(['auth', 'verified'])
+    ->name('post.edit');
+Route::put('/edit-article/{id}', [PostControleur::class, 'update'])
+    ->middleware(['auth', 'verified'])
+    ->name('post.update');
 Route::delete('/delete-article/{id}', [PostControleur::class, 'destroy'])
     ->middleware(['auth', 'verified'])
     ->name('post.destroy');

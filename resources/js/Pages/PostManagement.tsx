@@ -5,6 +5,7 @@ import { PageProps } from '@/types';
 import {Button} from "@/Components/ui/button";
 import { InertiaLink } from '@inertiajs/inertia-react';
 import axios from "axios";
+import {Inertia} from "@inertiajs/inertia";
 
 
 interface Post {
@@ -27,6 +28,9 @@ export default function PostManagement(props: PostManagementProps) {
     // Sort posts from newest to oldest
     const sortedPosts = [...posts].sort((a, b) => b.id - a.id);
 
+    const handleEdit = (postId: number) => {
+        Inertia.visit(`/edit-article/${postId}`);
+    };
     const handleDelete = async (postId: number) => {
         try {
             const response = await axios.delete(`/delete-article/${postId}`);
@@ -34,6 +38,7 @@ export default function PostManagement(props: PostManagementProps) {
             if (response.status === 200) {
                 console.log("Article successfully deleted");
                 // Here you might want to remove the post from your state
+                Inertia.reload({ only: ['posts'] });
             } else {
                 console.log("Error deleting article, status code:", response.status);
             }
@@ -73,7 +78,9 @@ export default function PostManagement(props: PostManagementProps) {
                 <td className="px-6 py-4 whitespace-nowrap">{post.title}</td>
                 <td className="px-6 py-4 whitespace-normal">{post.description}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <button className="text-indigo-600 hover:text-indigo-900">Edit</button>
+                    <button onClick = {() => handleEdit(post.id)}
+                            className = "text-indigo-600 hover:text-indigo-900" >Edit</button >
+
                     <button onClick = {() => handleDelete(post.id)}
                             className = "ml-4 text-red-600 hover:text-red-900" >Delete</button >
                 </td >

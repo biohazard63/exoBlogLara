@@ -74,5 +74,31 @@ class PostControleur extends Controller
         return response()->json(['message' => 'Article non trouvé'], 404);
     }
 }
+    public function edit($id)
+    {
+        $post = Post::find($id);
+
+        if ($post) {
+            return Inertia::render('EditArticle', ['post' => $post]);
+        } else {
+            return response()->json(['message' => 'Article not found'], 404);
+        }
+    }
+    public function update(Request $request, $id)
+    {
+        $post = Post::find($id);
+
+        if ($post) {
+            $post->title = $request->input('title');
+            $post->description = $request->input('description');
+            $post->content = $request->input('content');
+            $post->image = $request->input('image');
+            $post->save();
+
+            return redirect()->route('postmanagement');
+        } else {
+            return response()->json(['message' => 'Article not found'], 404);
+        }
+    }
 
 }
