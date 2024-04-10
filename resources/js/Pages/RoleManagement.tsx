@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import axios from "axios";
+// @ts-ignore
 import {Button} from "@/Components/ui/button";
 
 interface User {

@@ -22,18 +22,26 @@ export default function Authenticated({ user, header, children }: PropsWithChild
                                 </Link >
                             </div >
 
-                            <div className = "hidden space-x-8 sm:-my-px sm:ms-10 sm:flex" >
-                                <NavLink href = {route('dashboard')} active = {route().current('dashboard')} >
-                                    Dashboard
-                                </NavLink >
-
-                                    <NavLink href = {route('postmanagement')} active = {route().current('postmanagement')} >
-                                        Post management
+                            {user.role_id !== 3 && (
+                                <div className = "hidden space-x-8 sm:-my-px sm:ms-10 sm:flex" >
+                                    <NavLink href = {route('dashboard')} active = {route().current('dashboard')} >
+                                        Dashboard
                                     </NavLink >
-                                <NavLink href={route('role-management')} active={route().current('role-management')}>
-                                    Role management
-                                </NavLink>
-                            </div >
+                                        <NavLink href = {route('postmanagement')} active = {route().current('postmanagement')} >
+                                            Post management
+                                        </NavLink >
+                                    {user.role_id === 1 && (
+                                        <>
+                                        <NavLink href = {route('role-management')} active = {route().current('role-management')} >
+                                            Role management
+                                        </NavLink >
+                                            <NavLink href = {route('category-management')} active = {route().current('category-management')} >
+                                                Category management
+                                            </NavLink >
+                                        </>
+                                    )}
+                                </div >
+                            )}
                         </div >
 
                         <div className = "hidden sm:flex sm:items-center sm:ms-6" >

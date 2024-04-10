@@ -5,6 +5,7 @@ use App\Http\Controllers\PageControleur;
 use App\Http\Controllers\PostControleur;
 use App\Http\Controllers\ManagementController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\CategoryControler;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -50,7 +51,7 @@ Route::delete('/delete-article/{id}', [PostControleur::class, 'destroy'])
 
 Route::get('/role-management', function () {
     $user = auth()->user();
-    if ($user && $user->role_id === 1) { // Replace '1' with the id of the 'admin' role in your `roles` table
+    if ($user && $user->role_id === 1 | 2) { // Replace '1' with the id of the 'admin' role in your `roles` table
         return App::make(App\Http\Controllers\RoleController::class)->index();
     }
 
@@ -61,6 +62,18 @@ Route::put('/roles/{id}', [RoleController::class, 'update'])
     ->middleware(['auth', 'verified'])
     ->name('roles.update');
 
+
+Route::get('/category-management', function () {
+    $user = auth()->user();
+    if ($user && $user->role_id === 1 ) {
+        return App::make(App\Http\Controllers\CategoryControler::class)->index();
+    }
+
+    return redirect('/');
+})->name('category-management');
+
+Route::post('/categories', 'CategoryController@store');
+Route::get('/categories', 'CategoryController@getCategories');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
