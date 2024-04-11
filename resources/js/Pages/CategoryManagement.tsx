@@ -6,6 +6,8 @@ import {PageProps} from '@/types';
 
 import Modal from 'react-modal';
 import {Inertia} from '@inertiajs/inertia';
+// @ts-ignore
+import {Button} from "@/Components/ui/button";
 
 
 interface Category {
@@ -80,7 +82,7 @@ const CategoryManagement = (props: { auth: any, categories: Category[] }) => {
         >
         <Head title = "Category Management" />
         <div className = "ml-9 mt-4 items-center" >
-            <button onClick = {() => setModalIsOpen(true)} >Add new category</button >
+            <Button onClick = {() => setModalIsOpen(true)} >Add new category</Button >
            <Modal
                isOpen = {modalIsOpen}
                onRequestClose = {() => setModalIsOpen(false)}
@@ -108,8 +110,8 @@ const CategoryManagement = (props: { auth: any, categories: Category[] }) => {
                     <input type = "text" value = {description} onChange = {e => setDescription(e.target.value)}
                            className = "w-full px-4 py-2 mt-2 text-sm text-gray-700 bg-white border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500" />
                 </label >
-                <button type = "submit"
-                        className = "w-full px-4 py-2 mt-6 font-medium text-white uppercase bg-blue-600 rounded-lg hover:bg-blue-500 focus:outline-none focus:shadow-outline" >Submit</button >
+                <Button type = "submit"
+                        className = "w-full px-4 py-2 mt-6 font-medium text-white uppercase bg-blue-600 rounded-lg hover:bg-blue-500 focus:outline-none focus:shadow-outline" >Submit</Button >
             </form >
         </div >
     </div >
@@ -131,10 +133,10 @@ const CategoryManagement = (props: { auth: any, categories: Category[] }) => {
                             <td className = "border px-4 py-2" >{category.title}</td >
                             <td className = "border px-4 py-2" >{category.description}</td >
                             <td className = "border px-4 py-2" >
-                                <button onClick = {() => handleEdit(category.id)}
-                                        className = 'mr-4 px-4 py-2' >edit</button >
-                                <button onClick = {() => handleDelete(category.id)}
-                                        className = ' px-4 py-2' >delete</button >
+                                <Button onClick = {() => handleEdit(category.id)}
+                                        className = 'mr-4 px-4 py-2' >edit</Button >
+                                <Button onClick = {() => handleDelete(category.id)}
+                                        className = ' px-4 py-2' >delete</Button >
                             </td >
                         </tr >
                     ))}

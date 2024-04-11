@@ -101,4 +101,13 @@ class PostControleur extends Controller
         }
     }
 
+    public function userPosts()
+    {
+        $userId = auth()->id();
+        $posts = Post::with('user')->where('author_id', $userId)->get();
+        error_log(print_r($posts, true));
+
+        return Inertia::render('UserPosts', ['posts' => $posts]);
+    }
+
 }

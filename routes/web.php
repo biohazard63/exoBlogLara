@@ -51,7 +51,7 @@ Route::delete('/delete-article/{id}', [PostControleur::class, 'destroy'])
 
 Route::get('/role-management', function () {
     $user = auth()->user();
-    if ($user && $user->role_id === 1 | 2) { // Replace '1' with the id of the 'admin' role in your `roles` table
+    if ($user && $user->role_id === 1) { // Replace '1' with the id of the 'admin' role in your `roles` table
         return App::make(App\Http\Controllers\RoleController::class)->index();
     }
 
@@ -75,6 +75,15 @@ Route::get('/category-management', function () {
 Route::post('/category-management', [CategoryControler::class, 'store'])->name('categories.store');
 Route::put('/category-management/{id}', [CategoryControler::class, 'update'])->name('categories.update');
 Route::delete('/category-management/{id}', [CategoryControler::class, 'destroy'])->name('categories.destroy');
+
+
+Route::get('/user-posts', function () {
+    $user = auth()->user();
+    if ($user && ($user->role_id === 1 || $user->role_id === 2)) {
+        return App::make(App\Http\Controllers\PostControleur::class)->userPosts();
+    }
+    return redirect('/');
+})->name('user-posts');
 
 
 Route::middleware('auth')->group(function () {

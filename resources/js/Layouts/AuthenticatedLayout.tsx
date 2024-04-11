@@ -21,27 +21,24 @@ export default function Authenticated({ user, header, children }: PropsWithChild
                                     <ApplicationLogo className = "block h-9 w-auto fill-current text-gray-800" />
                                 </Link >
                             </div >
-
-                            {user.role_id !== 3 && (
+                            {user.role_id === 1 && (
+                                <>
                                 <div className = "hidden space-x-8 sm:-my-px sm:ms-10 sm:flex" >
                                     <NavLink href = {route('dashboard')} active = {route().current('dashboard')} >
                                         Dashboard
                                     </NavLink >
-                                        <NavLink href = {route('postmanagement')} active = {route().current('postmanagement')} >
+                                             <NavLink href = {route('postmanagement')} active = {route().current('postmanagement')} >
                                             Post management
                                         </NavLink >
-                                    {user.role_id === 1 && (
-                                        <>
                                         <NavLink href = {route('role-management')} active = {route().current('role-management')} >
                                             Role management
                                         </NavLink >
                                             <NavLink href = {route('category-management')} active = {route().current('category-management')} >
                                                 Category management
                                             </NavLink >
+                                </div>
                                         </>
                                     )}
-                                </div >
-                            )}
                         </div >
 
                         <div className = "hidden sm:flex sm:items-center sm:ms-6" >
@@ -72,6 +69,9 @@ export default function Authenticated({ user, header, children }: PropsWithChild
                                     </Dropdown.Trigger >
 
                                     <Dropdown.Content >
+                                        {[1, 2].includes(user.role_id) && (
+                                            <Dropdown.Link href={route('user-posts')}>Mes articles</Dropdown.Link>
+                                        )}
                                         <Dropdown.Link href = {route('articles')} >Articles</Dropdown.Link >
                                         <Dropdown.Link href = {route('profile.edit')} >Profile</Dropdown.Link >
                                         <Dropdown.Link href = {route('abouts')} >Abouts</Dropdown.Link >
