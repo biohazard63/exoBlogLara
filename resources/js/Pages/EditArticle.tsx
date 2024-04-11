@@ -1,11 +1,10 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head} from '@inertiajs/react';
 import {PageProps} from '@/types';
 import {Inertia} from '@inertiajs/inertia';
 
 interface Post {
-
     id: number;
     title: string;
     description: string;
@@ -19,11 +18,12 @@ interface EditArticleProps extends PageProps {
 
 export default function EditArticle(props: EditArticleProps) {
     const {auth, post} = props;
-
+    // Parsez le contenu du post
+    const parsedContent = JSON.parse(post.content);
 
     const [title, setTitle] = useState(post.title);
     const [description, setDescription] = useState(post.description);
-    const [content, setContent] = useState(post.content);
+    const [content, setContent] = useState(parsedContent.content); // Utilisez parsedContent.content comme valeur initiale
     const [image, setImage] = useState(post.image);
 
     const handleSubmit = (e: React.FormEvent) => {

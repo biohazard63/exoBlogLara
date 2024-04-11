@@ -13,8 +13,13 @@ export default function AddArticle({auth}: PageProps) {
     e.preventDefault();
     console.log("handleSubmit called");
 
-    const article = { title, content, description, image };
-    console.log("Article data:", article);
+        const article = {
+            title: title,
+            content: content,
+            description: description,
+            image: image
+        };
+        console.log("Article data:", article);
 
     try {
         console.log("Sending POST request to /add-article");

@@ -8,11 +8,17 @@ import { InertiaLink } from '@inertiajs/inertia-react';
 import axios from "axios";
 import {Inertia} from "@inertiajs/inertia";
 
-
+interface User {
+    name: string;
+    // Add other properties as needed
+}
 interface Post {
     id: number;
     title: string;
     description: string;
+    content: string;
+    image: string;
+    user: User; // Add this line
 }
 
 interface PostManagementProps extends PageProps {
