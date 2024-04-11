@@ -72,8 +72,10 @@ Route::get('/category-management', function () {
     return redirect('/');
 })->name('category-management');
 
-Route::post('/categories', 'CategoryController@store');
-Route::get('/categories', 'CategoryController@getCategories');
+Route::post('/category-management', [CategoryControler::class, 'store'])->name('categories.store');
+Route::put('/category-management/{id}', [CategoryControler::class, 'update'])->name('categories.update');
+Route::delete('/category-management/{id}', [CategoryControler::class, 'destroy'])->name('categories.destroy');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

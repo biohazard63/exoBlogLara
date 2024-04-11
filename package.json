@@ -57,6 +57,7 @@
         "input-otp": "^1.2.4",
         "lucide-react": "^0.365.0",
         "react-hook-form": "^7.51.2",
+        "react-modal": "^3.16.1",
         "react-resizable-panels": "^2.0.16",
         "tailwind-merge": "^2.2.2",
         "tailwindcss-animate": "^1.0.7",

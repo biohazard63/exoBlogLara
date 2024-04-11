@@ -14,10 +14,7 @@ class Category extends Model
      *
      * @var array
      */
-    protected $fillable = [
-        'name',
-    ];
-
+   protected $fillable = ['title', 'description'];
     /**
      * The posts that belong to the category.
      */

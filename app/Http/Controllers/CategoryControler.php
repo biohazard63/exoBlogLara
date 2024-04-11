@@ -17,22 +17,51 @@ class CategoryControler extends Controller
         ]);
     }
 
-    // In CategoryController.php
+
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'title' => 'required|string|max:255',
         ]);
 
         $category = Category::create([
-            'name' => $request->name,
+            'title' => $request->title,
+            'description' => $request->description,
         ]);
 
-        return response()->json($category, 201);
+        // Redirect to the same page after storing the category
+        return redirect()->back();
     }
+public function update(Request $request, $id)
+{
+    $request->validate([
+        'title' => 'required|string|max:255',
+    ]);
 
-    public function getCategories() {
-        $categories = Category::all();
-        return response()->json($categories);
+    $category = Category::find($id);
+
+    if ($category) {
+        $category->title = $request->title;
+        $category->description = $request->description;
+        $category->save();
+
+        return redirect()->back();
+    } else {
+        return response()->json(['message' => 'Category not found'], 404);
     }
+}
+
+public function destroy($id)
+{
+    $category = Category::find($id);
+
+    if ($category) {
+        $category->delete();
+
+        return redirect()->back();
+    } else {
+        return response()->json(['message' => 'Category not found'], 404);
+    }
+}
+
 }
