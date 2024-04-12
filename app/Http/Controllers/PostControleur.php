@@ -100,6 +100,9 @@ public function store(Request $request)
             $post->image = $request->input('image');
             $post->save();
 
+            $categoryIds = $request->category_ids; // les IDs des catégories à associer au post
+            $post->categories()->attach($categoryIds);
+
             return redirect()->route('postmanagement');
         } else {
             return response()->json(['message' => 'Article not found'], 404);

@@ -3,6 +3,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head} from '@inertiajs/react';
 import {PageProps} from '@/types';
 import {Inertia} from '@inertiajs/inertia';
+import axios from 'axios';
 
 interface Post {
     id: number;
@@ -18,13 +19,23 @@ interface EditArticleProps extends PageProps {
 
 export default function EditArticle(props: EditArticleProps) {
     const {auth, post} = props;
-    // Parsez le contenu du post
-    // const parsedContent = JSON.parse(post.content);
 
     const [title, setTitle] = useState(post.title);
     const [description, setDescription] = useState(post.description);
-    const [body, setBody] = useState(post.body); // Utilisez parsedContent.content comme valeur initiale
+    const [body, setBody] = useState(post.body);
     const [image, setImage] = useState(post.image);
+    const [categories, setCategories] = useState([]);
+    const [selectedCategories, setSelectedCategories] = useState([]);
+
+    useEffect(() => {
+        axios.get('/categories')
+            .then(response => {
+                setCategories(response.data);
+            })
+            .catch(error => {
+                console.error("Error fetching categories:", error);
+            });
+    }, []);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -34,6 +45,7 @@ export default function EditArticle(props: EditArticleProps) {
             description: description,
             body: body,
             image: image,
+            category_ids: selectedCategories
         }, {
             onSuccess: () => {
                 Inertia.visit('/postmanagement');
@@ -76,7 +88,8 @@ export default function EditArticle(props: EditArticleProps) {
                         </div >
 
                         <div className = "mb-4" >
-                                    <label className = "block text-gray-700 text-sm font-bold mb-2" htmlFor = "content" >
+                                    <label className = "block text-gray-700 text-sm font-bold mb-2"
+                                           htmlFor = "content" >
                                         body
                                     </label >
                                     <textarea
@@ -98,6 +111,18 @@ export default function EditArticle(props: EditArticleProps) {
                                         value = {image}
                                         onChange = {(e) => setImage(e.target.value)}
                                     />
+                                </div >
+                                 <div className = "mb-4" >
+                                    <label className = "block text-gray-700 text-sm font-bold mb-2" htmlFor = "categories" >
+                                        Categories
+                                    </label >
+                                    <select multiple value = {selectedCategories}
+                                            onChange = {e => setSelectedCategories(Array.from(e.target.selectedOptions, option => option.value))}
+                                            className = "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" >
+                                        {categories.map((category, index) => (
+                                            <option key = {index} value = {category.id} >{category.title}</option >
+                                        ))}
+                                    </select >
                                 </div >
 
                                 <div className = "flex items-center justify-between" >

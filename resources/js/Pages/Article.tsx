@@ -3,6 +3,7 @@ import {PageProps} from '@/types';
 import React, {useEffect, useState} from 'react';
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import GuestLayout from "@/Layouts/GuestLayout";
+import axios from "axios";
 
 interface ArticleProps {
     [key: string]: unknown;
@@ -17,6 +18,17 @@ export default function Article({articles, auth}: PageProps<ArticleProps>) {
     const Layout = auth && auth.user ? AuthenticatedLayout : GuestLayout;
     const [filteredArticles, setFilteredArticles] = useState<ArticleProps['articles']>(articles);
     const [selectedCategory, setSelectedCategory] = useState("");
+    const [categories, setCategories] = useState([]);
+
+    useEffect(() => {
+        axios.get('/categories')
+            .then(response => {
+                setCategories(response.data);
+            })
+            .catch(error => {
+                console.error("Error fetching categories:", error);
+            });
+    }, []);
 
     const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectedCategory(event.target.value);
@@ -43,17 +55,17 @@ export default function Article({articles, auth}: PageProps<ArticleProps>) {
     }
 
     return (
-        <Layout user = {auth.user} >
-            <Head title = "Articles" />
-            <div className = "container mx-auto px-4" >
-                <select onChange = {handleCategoryChange} className = "border-2 border-gray-300 rounded-md p-2 my-2" >
-                    <option value = "" >All</option >
-                    <option value = "1" >action</option >
-                    <option value = "2" >rpg</option >
-                    <option value = "3" >fps</option >
-                </select >
-                <button onClick = {handleFilterClick}
-                        className = "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" >Filter</button >
+        <Layout user={auth.user}>
+            <Head title="Articles" />
+            <div className="container mx-auto px-4">
+                <select onChange={handleCategoryChange} className="border-2 border-gray-300 rounded-md p-2 my-2">
+                    <option value="">All</option>
+                    {categories.map((category, index) => (
+                        <option key={index} value={category.id}>{category.title}</option>
+                    ))}
+                </select>
+                <button onClick={handleFilterClick}
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Filter</button>
 
                 {filteredArticles ? filteredArticles.map((article) => (
                     <Link href = {`/articles/${article.id}`} >
