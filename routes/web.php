@@ -27,6 +27,7 @@ Route::get('/dashboard', function () {
 Route::get('/dashboard',[\App\Http\Controllers\DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
+Route::post('/upload_logo', [\App\Http\Controllers\DashboardController::class, 'upload']);
 
 Route::get('/postmanagement', [PostControleur::class, 'index'])
     ->middleware(['auth', 'verified'])
