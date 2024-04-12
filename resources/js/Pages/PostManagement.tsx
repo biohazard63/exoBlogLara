@@ -16,7 +16,7 @@ interface Post {
     id: number;
     title: string;
     description: string;
-    content: string;
+    body: string;
     image: string;
     user: User; // Add this line
 }

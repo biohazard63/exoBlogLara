@@ -8,7 +8,7 @@ interface ArticleProps {
     [key: string]: unknown;
     laravelVersion: string;
     phpVersion: string;
-    article: { id: number, user:any, title: string, content: string, author:string, image: string };
+    article: { id: number, user:any, title: string, body: string, author:string, image: string };
 }
 
 export default function SingleArticle({article, auth}: PageProps<ArticleProps>) {
@@ -23,7 +23,7 @@ export default function SingleArticle({article, auth}: PageProps<ArticleProps>) 
             <Head title = {article.title} />
             <div className = "container mx-auto px-4" >
                 <h2 className = "text-xl font-bold mb-2" >{article.title}</h2 >
-                <p className = "mb-2" >{article.content}</p >
+                <p className = "mb-2" >{article.body}</p >
                 <img src = {article.image} alt = {article.title} className = "w-full" />
                 {article.user &&
                     <p className = "text-sm text-gray-500 mt-2" >Author: {article.user.name}</p >}

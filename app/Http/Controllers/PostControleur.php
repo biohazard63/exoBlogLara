@@ -6,6 +6,7 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Category;
 
 class PostControleur extends Controller
 {
@@ -38,25 +39,29 @@ class PostControleur extends Controller
 
     }
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'title' => 'required|max:255',
-            'content' => 'required',
-            'description' => 'required',
-            'image' => 'nullable|url',
-        ]);
+public function store(Request $request)
+{
+    $request->validate([
+        'title' => 'required|max:255',
+        'body' => 'required',
+        'description' => 'required',
+        'image' => 'nullable|url',
+        'category_ids' => 'required|array', // Assurez-vous que category_ids est un tableau
+    ]);
 
-        $post = new Post;
-        $post->title = $request->title;
-        $post->content = $request->content;
-        $post->description = $request->description;
-        $post->image = $request->image;
-        $post->author_id = Auth::id(); // Assurez-vous que l'utilisateur est connecté
-        $post->save();
+    $post = new Post;
+    $post->title = $request->title;
+    $post->body = $request->body;
+    $post->description = $request->description;
+    $post->image = $request->image;
+    $post->author_id = Auth::id(); // Assurez-vous que l'utilisateur est connecté
+    $post->save();
 
-        return response()->json(['message' => 'Article successfully created', 'post' => $post], 201);
-    }
+    $categoryIds = $request->category_ids; // les IDs des catégories à associer au post
+    $post->categories()->attach($categoryIds);
+
+    return response()->json(['message' => 'Article successfully created', 'post' => $post], 201);
+}
 
     public function destroy($id)
 {
@@ -91,7 +96,7 @@ class PostControleur extends Controller
         if ($post) {
             $post->title = $request->input('title');
             $post->description = $request->input('description');
-            $post->content = $request->input('content');
+            $post->body = $request->input('body');
             $post->image = $request->input('image');
             $post->save();
 
@@ -108,6 +113,12 @@ class PostControleur extends Controller
         error_log(print_r($posts, true));
 
         return Inertia::render('UserPosts', ['posts' => $posts]);
+    }
+
+    public function getCategory()
+    {
+        $categories = Category::all();
+        return response()->json($categories);
     }
 
 }

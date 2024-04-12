@@ -8,7 +8,7 @@ interface Post {
     id: number;
     title: string;
     description: string;
-    content: string;
+    body: string;
     image: string;
 }
 
@@ -19,11 +19,11 @@ interface EditArticleProps extends PageProps {
 export default function EditArticle(props: EditArticleProps) {
     const {auth, post} = props;
     // Parsez le contenu du post
-    const parsedContent = JSON.parse(post.content);
+    // const parsedContent = JSON.parse(post.content);
 
     const [title, setTitle] = useState(post.title);
     const [description, setDescription] = useState(post.description);
-    const [content, setContent] = useState(parsedContent.content); // Utilisez parsedContent.content comme valeur initiale
+    const [body, setBody] = useState(post.body); // Utilisez parsedContent.content comme valeur initiale
     const [image, setImage] = useState(post.image);
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -32,7 +32,7 @@ export default function EditArticle(props: EditArticleProps) {
         Inertia.put(`/edit-article/${post.id}`, {
             title: title,
             description: description,
-            content: content,
+            body: body,
             image: image,
         }, {
             onSuccess: () => {
@@ -77,13 +77,13 @@ export default function EditArticle(props: EditArticleProps) {
 
                         <div className = "mb-4" >
                                     <label className = "block text-gray-700 text-sm font-bold mb-2" htmlFor = "content" >
-                                        Content
+                                        body
                                     </label >
                                     <textarea
                                         className = "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                         id = "content"
-                                        value = {content}
-                                        onChange = {(e) => setContent(e.target.value)}
+                                        value = {body}
+                                        onChange = {(e) => setBody(e.target.value)}
                                     />
                                 </div >
 

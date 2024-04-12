@@ -38,6 +38,11 @@ Route::get('/add-article', [PostControleur::class, 'create'])
 Route::post('/add-article', [PostControleur::class, 'store'])
     ->middleware(['auth', 'verified'])
     ->name('post.store');
+Route::get('/categories', [PostControleur::class, 'getCategory'])
+    ->middleware(['auth', 'verified'])
+    ->name('categories');
+
+
 Route::get('/edit-article/{id}', [PostControleur::class, 'edit'])
     ->middleware(['auth', 'verified'])
     ->name('post.edit');

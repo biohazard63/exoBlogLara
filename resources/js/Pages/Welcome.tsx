@@ -10,7 +10,7 @@ interface ArticleProps {
     phpVersion: string;
     articles: Array<{
         user: any;
-        id: number, title: string, content: string, author:string, image: string }> | undefined;
+        id: number, title: string, body: string, author:string, image: string }> | undefined;
 }
 
 export default ({auth, laravelVersion, phpVersion, articles}: PageProps<ArticleProps>) => {
@@ -27,7 +27,7 @@ export default ({auth, laravelVersion, phpVersion, articles}: PageProps<ArticleP
                         <div className="bg-white shadow overflow-hidden sm:rounded-lg mb-8">
                             <div className="px-4 py-5 sm:px-6">
                                 <h2 className="text-lg leading-6 font-medium text-gray-900">{article.title}</h2>
-                                <p className="mt-1 max-w-2xl text-sm text-gray-500">{article.content}</p>
+                                <p className="mt-1 max-w-2xl text-sm text-gray-500">{article.body}</p>
                                 <img src={article.image} alt={article.title} className="w-full mt-4" />
                                 <p className= "mt-1 max-w-2xl text-sm text-gray-500" >Author: {article.user.name}</p >
                             </div >

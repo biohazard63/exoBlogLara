@@ -42,7 +42,7 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->text('content');
+            $table->text('body');
             $table->text('description');
             $table->string('image')->nullable();
             $table->foreignId('author_id')->constrained('users');

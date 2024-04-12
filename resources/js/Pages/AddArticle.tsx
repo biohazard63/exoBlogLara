@@ -1,13 +1,26 @@
 import {PageProps} from "@/types";
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import axios from 'axios';
 
 export default function AddArticle({auth}: PageProps) {
     const [title, setTitle] = useState("");
-    const [content, setContent] = useState("");
+    const [body, setBody] = useState("");
     const [description, setDescription] = useState("");
     const [image, setImage] = useState("");
+    const [categories, setCategories] = useState([]);
+    const [selectedCategories, setSelectedCategories] = useState([]);
+
+    useEffect(() => {
+        // Récupérez les catégories depuis votre API ici
+        axios.get('/categories')
+            .then(response => {
+                setCategories(response.data);
+            })
+            .catch(error => {
+                console.error("Error fetching categories:", error);
+            });
+    }, []);
 
     const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -15,9 +28,10 @@ export default function AddArticle({auth}: PageProps) {
 
         const article = {
             title: title,
-            content: content,
+            body: body,
             description: description,
-            image: image
+            image: image,
+            category_ids: selectedCategories // Envoyez les IDs de catégories sélectionnées
         };
         console.log("Article data:", article);
 
@@ -53,7 +67,7 @@ export default function AddArticle({auth}: PageProps) {
                 </label>
                 <label className="block">
                     <span className="text-gray-700">Content:</span>
-                    <textarea value={content} onChange={e => setContent(e.target.value)} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
+                    <textarea value={body} onChange={e => setBody(e.target.value)} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
                 </label>
                 <label className="block">
                     <span className="text-gray-700">Description:</span>
@@ -63,8 +77,18 @@ export default function AddArticle({auth}: PageProps) {
                     <span className="text-gray-700">Image URL:</span>
                     <input type="text" value={image} onChange={e => setImage(e.target.value)} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
                 </label>
-                <button type="submit" className="mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Add post</button>
-            </form>
-        </AuthenticatedLayout>
+                 <label className = "block" >
+                    <span className = "text-gray-700" >Categories:</span >
+                    <select multiple value = {selectedCategories}
+                            onChange = {e => setSelectedCategories(Array.from(e.target.selectedOptions, option => option.value))}
+                            className = "mt-1 block w-full rounded-md border-gray-300 shadow-sm" >
+                        {categories.map((category, index) => (
+                            <option key = {index} value = {category.id} >{category.title}</option >
+                        ))}
+                    </select >
+                </label >
+                <button type = "submit" className = "mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700" >Add post</button >
+            </form >
+        </AuthenticatedLayout >
     );
 }
