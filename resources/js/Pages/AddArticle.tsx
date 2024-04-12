@@ -8,8 +8,8 @@ export default function AddArticle({auth}: PageProps) {
     const [body, setBody] = useState("");
     const [description, setDescription] = useState("");
     const [image, setImage] = useState("");
-    const [categories, setCategories] = useState([]);
-    const [selectedCategories, setSelectedCategories] = useState([]);
+const [categories, setCategories] = useState<{id: string, title: string}[]>([]);
+const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
     useEffect(() => {
         // Récupérez les catégories depuis votre API ici

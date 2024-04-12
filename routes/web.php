@@ -24,6 +24,9 @@ Route::get('/articles/{id}', [PostControleur::class, 'show'])->name('articles.sh
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard',[\App\Http\Controllers\DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
 Route::get('/postmanagement', [PostControleur::class, 'index'])
     ->middleware(['auth', 'verified'])
@@ -66,6 +69,10 @@ Route::get('/role-management', function () {
 Route::put('/roles/{id}', [RoleController::class, 'update'])
     ->middleware(['auth', 'verified'])
     ->name('roles.update');
+
+Route::delete('/roles/{id}', [RoleController::class, 'destroy'])
+    ->middleware(['auth', 'verified'])
+    ->name('roles.destroy');
 
 
 Route::get('/category-management', function () {

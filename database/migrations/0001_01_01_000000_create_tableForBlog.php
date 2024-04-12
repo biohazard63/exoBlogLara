@@ -23,11 +23,11 @@ return new class extends Migration
                 $table->string('email')->unique();
                 $table->timestamp('email_verified_at')->nullable();
                 $table->string('password');
-                $table->foreignId('role_id')->constrained('roles');
+                $table->foreignId('role_id')->constrained('roles')->onDelete('cascade')->onUpdate('cascade');
                 $table->rememberToken();
                 $table->timestamps();
             });
-        } // This closing brace was missing
+        }
 
         // Create categories table
         Schema::create('categories', function (Blueprint $table) {
@@ -45,15 +45,15 @@ return new class extends Migration
             $table->text('body');
             $table->text('description');
             $table->string('image')->nullable();
-            $table->foreignId('author_id')->constrained('users');
+            $table->foreignId('author_id')->constrained('users')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
 
         // Create pivot table for posts and categories
         Schema::create('category_post', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('post_id')->constrained('posts');
-            $table->foreignId('category_id')->constrained('categories');
+            $table->foreignId('post_id')->constrained('posts')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

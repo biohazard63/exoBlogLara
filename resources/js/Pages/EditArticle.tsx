@@ -24,8 +24,8 @@ export default function EditArticle(props: EditArticleProps) {
     const [description, setDescription] = useState(post.description);
     const [body, setBody] = useState(post.body);
     const [image, setImage] = useState(post.image);
-    const [categories, setCategories] = useState([]);
-    const [selectedCategories, setSelectedCategories] = useState([]);
+const [categories, setCategories] = useState<{id: string, title: string}[]>([]);
+const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
     useEffect(() => {
         axios.get('/categories')

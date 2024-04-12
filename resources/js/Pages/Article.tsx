@@ -18,7 +18,7 @@ export default function Article({articles, auth}: PageProps<ArticleProps>) {
     const Layout = auth && auth.user ? AuthenticatedLayout : GuestLayout;
     const [filteredArticles, setFilteredArticles] = useState<ArticleProps['articles']>(articles);
     const [selectedCategory, setSelectedCategory] = useState("");
-    const [categories, setCategories] = useState([]);
+const [categories, setCategories] = useState<{id: string, title: string}[]>([]);
 
     useEffect(() => {
         axios.get('/categories')
@@ -67,16 +67,16 @@ export default function Article({articles, auth}: PageProps<ArticleProps>) {
                 <button onClick={handleFilterClick}
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Filter</button>
 
-                {filteredArticles ? filteredArticles.map((article) => (
+                {filteredArticles ? [...filteredArticles].sort((a, b) => b.id - a.id).map((article) => (
                     <Link href = {`/articles/${article.id}`} >
-    <div key = {article.id} className = "bg-white shadow overflow-hidden sm:rounded-lg my-4 p-4" >
-        <h2 className = "text-xl font-bold mb-2" >{article.title}</h2 >
-        <p className = "mb-2" >{article.description}</p >
-        <img src = {article.image} alt = {article.title} className = "w-full" />
-        {article.user &&
-    <p className = "text-sm text-gray-500 mt-2" >Author: {article.user.name}</p >}
-    </div >
-</Link >
+                        <div key = {article.id} className = "bg-white shadow overflow-hidden sm:rounded-lg my-4 p-4" >
+                            <h2 className = "text-xl font-bold mb-2" >{article.title}</h2 >
+                            <p className = "mb-2" >{article.description}</p >
+                            <img src = {article.image} alt = {article.title} className = "w-full" />
+                            {article.user &&
+                            <p className = "text-sm text-gray-500 mt-2" >Author: {article.user.name}</p >}
+                        </div >
+                    </Link >
                 )) : <div className = "text-center py-4" >Loading...</div >}
             </div >
          </Layout >

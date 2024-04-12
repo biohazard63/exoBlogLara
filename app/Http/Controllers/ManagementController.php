@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Post; // Assurez-vous de remplacer ceci par le modèle approprié pour vos articles
+use App\Models\Post; // Add this line
+use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class ManagementController extends Controller
 {
