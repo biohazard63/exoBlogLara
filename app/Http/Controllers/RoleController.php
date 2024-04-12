@@ -37,4 +37,26 @@ class RoleController extends Controller
 
     return Inertia::render('RoleManagement', ['message' => 'Role value cannot be null.']);
 }
+
+public function destroy($id)
+{
+    \Log::info("Attempting to delete user with id: {$id}");
+
+    $user = User::find($id);
+
+    if (!$user) {
+        \Log::error("User with id {$id} not found");
+        return response()->json(['message' => 'User not found'], 404);
+    }
+
+    try {
+        $user->delete();
+    } catch (\Exception $e) {
+        \Log::error("Error deleting user: {$e->getMessage()}");
+        return response()->json(['message' => 'Error deleting user'], 500);
+    }
+
+    \Log::info("User with id {$id} deleted successfully");
+    return response()->json(['message' => 'User deleted successfully'], 200);
+}
 }

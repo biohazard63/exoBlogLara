@@ -27,13 +27,20 @@ interface PostManagementProps extends PageProps {
 
 export default function PostManagement(props: PostManagementProps) {
     const { auth, posts } = props;
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(10);
+
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = posts.slice(indexOfFirstItem, indexOfLastItem);
+
 
     if (!posts) {
         return null; // or return a loading spinner
     }
 
     // Sort posts from newest to oldest
-    const sortedPosts = [...posts].sort((a, b) => b.id - a.id);
+    const sortedCurrentItems = [...currentItems].sort((a, b) => b.id - a.id);
 
     const handleEdit = (postId: number) => {
         Inertia.visit(`/edit-article/${postId}`);
@@ -53,7 +60,21 @@ export default function PostManagement(props: PostManagementProps) {
             console.log("Error sending DELETE request:", error);
         }
     };
+    const totalPages = Math.ceil(posts.length / itemsPerPage); // replace 'users' with 'posts'
 
+    // Function to handle click on the previous page button
+    const handlePreviousClick = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
+
+    // Function to handle click on the next page button
+    const handleNextClick = () => {
+        if (currentPage < totalPages) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -69,22 +90,22 @@ export default function PostManagement(props: PostManagementProps) {
 
             <div className = "mt-4 mb-5 max-w-screen max-h-screen overflow-auto" >
                 <div className = "mx-auto sm:px-6 lg:px-8" >
-                   <table className="divide-y divide-gray-200">
-    <thead className="bg-gray-50">
-        <tr>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Author</th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">description</th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-        </tr>
-    </thead>
-    <tbody className="bg-white divide-y divide-gray-200">
-        {sortedPosts.map((post: Post) => (
-            <tr key={post.id}>
-                <td className="px-6 py-4 whitespace-nowrap">{post.user.name}</td>
-                <td className="px-6 py-4 whitespace-nowrap">{post.title}</td>
-                <td className="px-6 py-4 whitespace-normal">{post.description}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                   <table className = "divide-y divide-gray-200" >
+    <thead className = "bg-gray-50" >
+        <tr >
+            <th className = "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" >Author</th >
+            <th className = "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" >Title</th >
+            <th className = "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" >description</th >
+            <th className = "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" >Actions</th >
+        </tr >
+    </thead >
+    <tbody className = "bg-white divide-y divide-gray-200" >
+        {sortedCurrentItems.map((post: Post) => (
+            <tr key = {post.id} >
+                <td className = "px-6 py-4 whitespace-nowrap" >{post.user.name}</td >
+                <td className = "px-6 py-4 whitespace-nowrap" >{post.title}</td >
+                <td className = "px-6 py-4 whitespace-normal" >{post.description}</td >
+                <td className = "px-6 py-4 whitespace-nowrap text-right text-sm font-medium" >
                     <button onClick = {() => handleEdit(post.id)}
                             className = "text-indigo-600 hover:text-indigo-900" >Edit</button >
 
@@ -95,8 +116,27 @@ export default function PostManagement(props: PostManagementProps) {
         ))}
     </tbody >
 </table >
+                     <div className = "mt-4 flex items-center justify-between" >
+                        <button
+                            onClick = {handlePreviousClick}
+                            disabled = {currentPage === 1}
+                            className = {`px-4 py-2 rounded bg-blue-500 text-white ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-700'}`}
+                        >
+                            Précédent
+                        </button >
+                        <div >
+                            Page {currentPage} sur {totalPages}
+                        </div >
+                        <button
+                            onClick = {handleNextClick}
+                            disabled = {currentPage === totalPages}
+                            className = {`px-4 py-2 rounded bg-blue-500 text-white ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-700'}`}
+                        >
+                            Suivant
+                        </button >
+                    </div >
                 </div >
-            </div>
-        </AuthenticatedLayout>
+            </div >
+        </AuthenticatedLayout >
     );
 }

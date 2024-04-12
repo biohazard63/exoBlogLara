@@ -22,6 +22,13 @@ const CategoryManagement = (props: { auth: any, categories: Category[] }) => {
     const [title, setTitle] = useState(''); // Change 'name' to 'title'
     const [description, setDescription] = useState('');
     const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
+    // Pagination state
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 5;
+
+    // Calculate first and last item index
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -75,6 +82,23 @@ const CategoryManagement = (props: { auth: any, categories: Category[] }) => {
         });
     };
 
+    const currentItems = categories.slice(indexOfFirstItem, indexOfLastItem);
+
+    // Function to handle click on the previous page button
+    const handlePreviousClick = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
+
+    // Function to handle click on the next page button
+    const handleNextClick = () => {
+        const totalPages = Math.ceil(categories.length / itemsPerPage);
+        if (currentPage < totalPages) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
+
     return (
         <AuthenticatedLayout
             user = {auth.user}
@@ -118,7 +142,7 @@ const CategoryManagement = (props: { auth: any, categories: Category[] }) => {
 </Modal >
         </div >
 
-            {categories && (
+            {currentItems && (
                 <table className = "table-auto" >
                 <thead >
                     <tr >
@@ -128,8 +152,8 @@ const CategoryManagement = (props: { auth: any, categories: Category[] }) => {
                     </tr >
                 </thead >
                 <tbody >
-                    {categories.map((category: Category) => (
-                        <tr key = {category.id} >
+                {currentItems.map((category: Category) => (
+                    <tr key = {category.id} >
                             <td className = "border px-4 py-2" >{category.title}</td >
                             <td className = "border px-4 py-2" >{category.description}</td >
                             <td className = "border px-4 py-2" >
@@ -139,8 +163,28 @@ const CategoryManagement = (props: { auth: any, categories: Category[] }) => {
                                         className = ' px-4 py-2' >delete</Button >
                             </td >
                         </tr >
-                    ))}
+                ))}
                 </tbody >
+                     <div className = "mt-4 flex items-center justify-between" >
+            <button
+                onClick = {handlePreviousClick}
+                disabled = {currentPage === 1}
+                className = {`px-4 py-2 rounded bg-blue-500 text-white ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-700'}`}
+            >
+                Précédent
+            </button >
+            <div >
+                Page {currentPage} sur {Math.ceil(categories.length / itemsPerPage)}
+            </div >
+            <button
+                onClick = {handleNextClick}
+                disabled = {currentPage === Math.ceil(categories.length / itemsPerPage)}
+                className = {`px-4 py-2 rounded bg-blue-500 text-white ${currentPage === Math.ceil(categories.length / itemsPerPage) ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-700'}`}
+            >
+                Suivant
+            </button >
+        </div >
+
             </table >
             )}
     </AuthenticatedLayout >
