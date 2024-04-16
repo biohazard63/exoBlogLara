@@ -39,75 +39,106 @@ class PostControleur extends Controller
 
     }
 
-public function store(Request $request)
-{
-    $request->validate([
-        'title' => 'required|max:255',
-        'body' => 'required',
-        'description' => 'required',
-        'image' => 'nullable|url',
-        'category_ids' => 'required|array', // Assurez-vous que category_ids est un tableau
-    ]);
+    public function store(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|max:255',
+            'body' => 'required',
+            'description' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validez que l'image est un fichier image
+            'category_ids' => 'required|array',
+        ]);
 
-    $post = new Post;
-    $post->title = $request->title;
-    $post->body = $request->body;
-    $post->description = $request->description;
-    $post->image = $request->image;
-    $post->author_id = Auth::id(); // Assurez-vous que l'utilisateur est connecté
-    $post->save();
+        $post = new Post;
+        $post->title = $request->title;
+        $post->body = $request->body;
+        $post->description = $request->description;
 
-    $categoryIds = $request->category_ids; // les IDs des catégories à associer au post
-    $post->categories()->attach($categoryIds);
+        $imageName = time() . '.' . $request->image->extension(); // Créez un nom unique pour l'image
+        $request->image->move(public_path('img'), $imageName); // Déplacez l'image dans le dossier public/img
+        $post->image = '/img/' . $imageName; // Enregistrez le chemin de l'image dans la base de données
 
-    return response()->json(['message' => 'Article successfully created', 'post' => $post], 201);
-}
+        $post->author_id = Auth::id();
+        $post->save();
+
+        $categoryIds = $request->category_ids;
+        $post->categories()->attach($categoryIds);
+
+        return response()->json(['message' => 'Article successfully created', 'post' => $post], 201);
+    }
 
     public function destroy($id)
+    {
+        $post = Post::find($id);
+
+        if ($post) {
+            // Dissociez d'abord les catégories associées
+            $post->categories()->detach();
+
+            // Puis supprimez le post
+            $post->delete();
+
+            return response()->json(['message' => 'Article supprimé avec succès'], 200);
+        } else {
+            return response()->json(['message' => 'Article non trouvé'], 404);
+        }
+    }
+
+    public function edit($id)
 {
+    $post = Post::with('categories')->find($id);
+
+    if ($post) {
+        return Inertia::render('EditArticle', ['post' => $post]);
+    } else {
+        return response()->json(['message' => 'Article not found'], 404);
+    }
+}
+
+public function update(Request $request, $id)
+{
+    try {
+
+
     $post = Post::find($id);
 
     if ($post) {
-        // Dissociez d'abord les catégories associées
-        $post->categories()->detach();
+        $request->validate([
+            'title' => 'required|max:255',
+            'body' => 'required',
+            'description' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'category_ids' => 'required|array',
+        ]);
+        var_dump($request->all(), $post); // Utilisez var_dump() à la place de dd()
+        print_r($request->all(), $post); // Ou utilisez print_r()
 
-        // Puis supprimez le post
-        $post->delete();
 
-        return response()->json(['message' => 'Article supprimé avec succès'], 200);
+        $post->title = $request->input('title');
+        $post->description = $request->input('description');
+        $post->body = $request->input('body');
+
+        $imageName = time() . '.' . $request->file('image')->getClientOriginalExtension(); // Créez un nom unique pour l'image
+        $request->file('image')->move(public_path('img'), $imageName); // Déplacez l'image dans le dossier public/img
+        $post->image = '/img/' . $imageName; // Enregistrez le chemin de l'image dans la base de données
+
+        $post->save();
+
+        $categoryIds = $request->category_ids; // les IDs des catégories à associer au post
+        $post->categories()->sync($categoryIds);
+
+        return redirect()->route('postmanagement');
     } else {
-        return response()->json(['message' => 'Article non trouvé'], 404);
+        return response()->json(['message' => 'Article not found'], 404);
+    }
+} catch (\Exception $e) {
+        \Log::error('Erreur lors de la mise à jour du post', [
+            'request' => $request->all(),
+            'error' => $e->getMessage()
+        ]);
+        throw $e;
     }
 }
-    public function edit($id)
-    {
-        $post = Post::find($id);
-
-        if ($post) {
-            return Inertia::render('EditArticle', ['post' => $post]);
-        } else {
-            return response()->json(['message' => 'Article not found'], 404);
-        }
-    }
-    public function update(Request $request, $id)
-    {
-        $post = Post::find($id);
-
-        if ($post) {
-            $post->title = $request->input('title');
-            $post->description = $request->input('description');
-            $post->body = $request->input('body');
-            $post->image = $request->input('image');
-            $post->save();
-
-            $categoryIds = $request->category_ids; // les IDs des catégories à associer au post
-            $post->categories()->attach($categoryIds);
-
-            return redirect()->route('postmanagement');
-        } else {
-            return response()->json(['message' => 'Article not found'], 404);
-        }
-    }
 
     public function userPosts()
     {
