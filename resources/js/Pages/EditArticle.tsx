@@ -5,12 +5,19 @@ import {PageProps} from '@/types';
 import {Inertia} from '@inertiajs/inertia';
 import axios from 'axios';
 
+
+interface Category {
+    id: string;
+    title: string;
+}
+
 interface Post {
     id: number;
     title: string;
     description: string;
     body: string;
     image: string;
+    categories: Category[];
 }
 
 interface EditArticleProps extends PageProps {
@@ -27,15 +34,22 @@ export default function EditArticle(props: EditArticleProps) {
 const [categories, setCategories] = useState<{id: string, title: string}[]>([]);
 const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
-    useEffect(() => {
-        axios.get('/categories')
-            .then(response => {
-                setCategories(response.data);
-            })
-            .catch(error => {
-                console.error("Error fetching categories:", error);
-            });
-    }, []);
+
+
+   useEffect(() => {
+    axios.get('/categories')
+        .then(response => {
+            setCategories(response.data);
+        })
+        .catch(error => {
+            console.error("Error fetching categories:", error);
+        });
+
+    // Set the selected categories to the ids of the post's categories
+    if (post.categories) {
+        setSelectedCategories(post.categories.map(category => category.id));
+    }
+}, []);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -104,6 +118,11 @@ const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
                                     <label className = "block text-gray-700 text-sm font-bold mb-2" htmlFor = "image" >
                                         Image URL
                                     </label >
+                                  <input
+                                      type = "hidden"
+                                      name = "current_image"
+                                      value = {post.image}
+                                  />
                                     <input
                                         className = "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                         id = "image"
@@ -113,7 +132,8 @@ const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
                                     />
                                 </div >
                                  <div className = "mb-4" >
-                                    <label className = "block text-gray-700 text-sm font-bold mb-2" htmlFor = "categories" >
+                                    <label className = "block text-gray-700 text-sm font-bold mb-2"
+                                           htmlFor = "categories" >
                                         Categories
                                     </label >
                                     <select multiple value = {selectedCategories}
