@@ -135,8 +135,8 @@ const RoleManagement: React.FC<RoleManagementProps> = ({ auth, users }) => {
                                         </select >
                                     </td >
                                     <td className = "border px-4 py-2" >
-                                        <Button onClick = {() => updateRole(user.id)} className = "ml-4  mr-4" >Update Role</Button >
-                                        <Button onClick = {() => deleteUser(user.id)}>Delete</Button>
+                                        <Button onClick = {() => updateRole(user.id)} className="mr-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" >Update Role</Button >
+                                        <Button onClick = {() => deleteUser(user.id)}   className = "px-4 py-2 rounded bg-red-500 text-white hover:bg-red-700 transition duration-200">Delete</Button>
                                     </td >
                                 </tr >
                            ))}

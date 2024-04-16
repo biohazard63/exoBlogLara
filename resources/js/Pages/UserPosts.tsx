@@ -65,40 +65,42 @@ export default function userPosts(props: userPostProps) {
 
             <div className = " ml-9 mt-4 items-center" >
                 <InertiaLink href = "/add-article" >
-                    <Button >add new articles</Button >
+                    <Button className = "mr-4 px-4 py-2 rounded bg-blue-500 text-white hover:bg-blue-700 transition duration-200">
+ add new articles</Button >
                 </InertiaLink >
             </div >
 
-            <div className = "mt-4 mb-5 max-w-screen max-h-screen overflow-auto" >
-                <div className = "mx-auto sm:px-6 lg:px-8" >
-                   <table className="divide-y divide-gray-200">
-    <thead className="bg-gray-50">
-        <tr>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Author</th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">description</th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-        </tr>
-    </thead>
-    <tbody className="bg-white divide-y divide-gray-200">
+             <div className = "mt-4 mb-5 max-w-screen max-h-screen overflow-auto flex justify-center items-center" >
+        <div className = "mx-auto sm:px-6 lg:px-8" >
+            <table className = "divide-y divide-gray-200 mx-auto" >
+
+    <thead className = "bg-gray-50" >
+        <tr >
+            <th className = "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" >Author</th >
+            <th className = "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" >Title</th >
+            <th className = "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" >description</th >
+            <th className = "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" >Actions</th >
+        </tr >
+    </thead >
+    <tbody className = "bg-white divide-y divide-gray-200" >
         {sortedPosts.map((post: Post) => (
-            <tr key={post.id}>
-        <td className="px-6 py-4 whitespace-nowrap">{post.user ? post.user.name : 'Unknown'}</td>
-        <td className="px-6 py-4 whitespace-nowrap">{post.title}</td>
-        <td className="px-6 py-4 whitespace-normal">{post.description}</td>
-        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+            <tr key = {post.id} >
+        <td className = "px-6 py-4 whitespace-nowrap" >{post.user ? post.user.name : 'Unknown'}</td >
+        <td className = "px-6 py-4 whitespace-nowrap" >{post.title}</td >
+        <td className = "px-6 py-4 whitespace-normal" >{post.description}</td >
+        <td className = "px-6 py-4 whitespace-nowrap text-right text-sm font-medium" >
             <button onClick = {() => handleEdit(post.id)}
-                    className = "text-indigo-600 hover:text-indigo-900" >Edit</button >
+                    className = "mr-4 px-4 py-2 rounded bg-blue-500 text-white hover:bg-blue-700 transition duration-200" >edit</button >
 
             <button onClick = {() => handleDelete(post.id)}
-                    className = "ml-4 text-red-600 hover:text-red-900" >Delete</button >
+                    className = "px-4 py-2 rounded bg-red-500 text-white hover:bg-red-700 transition duration-200" >delete</button >
         </td >
     </tr >
         ))}
     </tbody >
 </table >
                 </div >
-            </div>
-        </AuthenticatedLayout>
+            </div >
+        </AuthenticatedLayout >
     );
 }

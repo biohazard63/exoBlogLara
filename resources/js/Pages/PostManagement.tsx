@@ -84,7 +84,7 @@ export default function PostManagement(props: PostManagementProps) {
 
             <div className = " ml-9 mt-4 items-center" >
                 <InertiaLink href = "/add-article" >
-                    <Button >add new articles</Button >
+                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" >add new articles</button >
                 </InertiaLink >
             </div >
 
@@ -106,11 +106,11 @@ export default function PostManagement(props: PostManagementProps) {
                 <td className = "px-6 py-4 whitespace-nowrap" >{post.title}</td >
                 <td className = "px-6 py-4 whitespace-normal" >{post.description}</td >
                 <td className = "px-6 py-4 whitespace-nowrap text-right text-sm font-medium" >
-                    <button onClick = {() => handleEdit(post.id)}
-                            className = "text-indigo-600 hover:text-indigo-900" >Edit</button >
+                   <button onClick = {() => handleEdit(post.id)}
+        className = "px-4 py-2 rounded bg-indigo-600 text-white hover:bg-indigo-900 transition duration-200" >Edit</button >
 
-                    <button onClick = {() => handleDelete(post.id)}
-                            className = "ml-4 text-red-600 hover:text-red-900" >Delete</button >
+<button onClick = {() => handleDelete(post.id)}
+        className = "ml-4 px-4 py-2 rounded bg-red-600 text-white hover:bg-red-900 transition duration-200" >Delete</button >
                 </td >
             </tr >
         ))}
