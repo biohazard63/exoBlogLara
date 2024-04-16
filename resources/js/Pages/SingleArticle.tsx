@@ -21,18 +21,18 @@ export default function SingleArticle({article, auth}: PageProps<ArticleProps>) 
 
     return (
         <Layout user={auth.user}>
-            <Head title = {article.title} />
-            <div className = "container mx-auto px-4" >
-                <h2 className = "text-xl font-bold mb-2" >{article.title}</h2 >
-                <p className = "mb-2" >{article.body}</p >
-                <img src = {article.image} alt = {article.title} className = "w-full" />
-                {auth.user && (auth.user.id === article.user.id || auth.user.role_id === 1) &&
-                    <button onClick={() => Inertia.visit(`/edit-article/${article.id}`)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                        Edit Article
-                    </button>}
-                {article.user &&
-                    <p className = "text-sm text-gray-500 mt-2" >Author: {article.user.name}</p >}
-            </div >
-        </Layout >
+    <Head title = {article.title} />
+    <div className = "containerA mx-auto px-4 flex flex-col items-center justify-center" style={{color: 'var(--text-color)'}} >
+        <h2 className = "text-xl font-bold mb-2">{article.title}</h2 >
+        <p className = "mb-2">{article.body}</p >
+        <img src = {article.image} alt = {article.title} className = "max-w-80 object-cover h-64" />
+        {auth.user && (auth.user.id === article.user.id || auth.user.role_id === 1) &&
+            <button onClick={() => Inertia.visit(`/edit-article/${article.id}`)} className="font-bold py-2 px-4 rounded" style={{backgroundColor: 'var(--primary-color)', color: 'var(--text-color)'}}>
+                Edit Article
+            </button>}
+        {article.user &&
+            <p className = "text-sm mt-2" >Author: {article.user.name}</p >}
+    </div >
+</Layout >
     );
 };

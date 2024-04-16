@@ -9,46 +9,55 @@ import Footer from '@/Layouts/Footer';
 
 export default function Authenticated({ user, header, children }: PropsWithChildren<{ user: User, header?: ReactNode }>) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
-
+    const toggleTheme = () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const switchToTheme = currentTheme === 'light' ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', switchToTheme);
+    }
     return (
-        <div className = "min-h-screen bg-gray-100" >
-            <nav className = "bg-white border-b border-gray-100" >
+        <div className = "min-h-screen bg-[var(--background-color)]" >
+            <nav className = "navbar fixed w-full z-10 top-0" >
                 <div className = "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" >
                     <div className = "flex justify-between h-16" >
                         <div className = "flex" >
                             <div className = "shrink-0 flex items-center" >
                                 <Link href = "/" >
-                                    <ApplicationLogo className = "block h-9 w-auto fill-current text-gray-800" />
+                                    <ApplicationLogo className = "logo" />
                                 </Link >
                             </div >
                             {user.role_id === 1 && (
-                                <>
                                 <div className = "hidden space-x-8 sm:-my-px sm:ms-10 sm:flex" >
-                                    <NavLink href = {route('dashboard')} active = {route().current('dashboard')} >
+                                    <NavLink href = {route('dashboard')} active = {route().current('dashboard')} className="text-[var(--text-color)]">
                                         Dashboard
                                     </NavLink >
-                                             <NavLink href = {route('postmanagement')} active = {route().current('postmanagement')} >
-                                            Post management
-                                        </NavLink >
-                                        <NavLink href = {route('role-management')} active = {route().current('role-management')} >
-                                            Role management
-                                        </NavLink >
-                                            <NavLink href = {route('category-management')} active = {route().current('category-management')} >
-                                                Category management
-                                            </NavLink >
+                                    <NavLink href = {route('postmanagement')} active = {route().current('postmanagement')} className="text-[var(--text-color)]">
+                                        Post management
+                                    </NavLink >
+                                    <NavLink href = {route('role-management')} active = {route().current('role-management')} className="text-[var(--text-color)]">
+                                        Role management
+                                    </NavLink >
+                                    <NavLink href = {route('category-management')} active = {route().current('category-management')} className="text-[var(--text-color)]">
+                                        Category management
+                                    </NavLink >
                                 </div>
-                                        </>
-                                    )}
+                            )}
                         </div >
 
                         <div className = "hidden sm:flex sm:items-center sm:ms-6" >
+                            <div className = "relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in" >
+                                <input type = "checkbox" name = "toggle" id = "toggle"
+                                       className = "toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
+                                       onClick = {toggleTheme} />
+                                <label htmlFor = "toggle"
+                                       className = "toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer" ></label >
+                            </div >
                             <div className = "ms-3 relative" >
                                 <Dropdown >
                                     <Dropdown.Trigger >
                                         <span className = "inline-flex rounded-md" >
                                             <button
                                                 type = "button"
-                                                className = "inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
+                                                className = "dropdown-button"
                                             >
                                                 {user ? user.name : ''}
 
@@ -68,15 +77,15 @@ export default function Authenticated({ user, header, children }: PropsWithChild
                                         </span >
                                     </Dropdown.Trigger >
 
-                                    <Dropdown.Content >
+                                    <Dropdown.Content contentClasses="dropdown-menu">
                                         {[1, 2].includes(user.role_id) && (
-                                            <Dropdown.Link href={route('user-posts')}>Mes articles</Dropdown.Link>
+                                            <Dropdown.Link href={route('user-posts')} className="text-[var(--text-color)]">Mes articles</Dropdown.Link>
                                         )}
-                                        <Dropdown.Link href = {route('articles')} >Articles</Dropdown.Link >
-                                        <Dropdown.Link href = {route('profile.edit')} >Profile</Dropdown.Link >
-                                        <Dropdown.Link href = {route('abouts')} >Abouts</Dropdown.Link >
-                                        <Dropdown.Link href = {route('legals')} >Mention legals</Dropdown.Link >
-                                        <Dropdown.Link href = {route('logout')} method = "post" as = "button" >
+                                        <Dropdown.Link href = {route('articles')} className="text-[var(--text-color)]">Articles</Dropdown.Link >
+                                        <Dropdown.Link href = {route('profile.edit')} className="text-[var(--text-color)]">Profile</Dropdown.Link >
+                                        <Dropdown.Link href = {route('abouts')} className="text-[var(--text-color)]">Abouts</Dropdown.Link >
+                                        <Dropdown.Link href = {route('legals')} className="text-[var(--text-color)]">Mention legals</Dropdown.Link >
+                                        <Dropdown.Link href = {route('logout')} method = "post" as = "button" className="text-[var(--text-color)]">
                                             Log Out
                                         </Dropdown.Link >
                                     </Dropdown.Content >
@@ -112,14 +121,13 @@ export default function Authenticated({ user, header, children }: PropsWithChild
 
                 <div className = {(showingNavigationDropdown ? 'block' : 'hidden') + ' sm:hidden'} >
                     <div className = "pt-2 pb-3 space-y-1" >
-                        <ResponsiveNavLink href = {route('dashboard')} active = {route().current('dashboard')} >
+                        <ResponsiveNavLink href = {route('dashboard')} active = {route().current('dashboard')} className="text-[var(--text-color)]">
                             Dashboard
                         </ResponsiveNavLink >
 
-                            <ResponsiveNavLink href = {route('postmanagement')} active = {route().current('postmanagement')} >
-                                Post management
-                            </ResponsiveNavLink >
-
+                        <ResponsiveNavLink href = {route('postmanagement')} active = {route().current('postmanagement')} className="text-[var(--text-color)]">
+                            Post management
+                        </ResponsiveNavLink >
                     </div >
 
                     <div className = "pt-4 pb-1 border-t border-gray-200" >
@@ -131,8 +139,8 @@ export default function Authenticated({ user, header, children }: PropsWithChild
                         </div >
 
                         <div className = "mt-3 space-y-1" >
-                            <ResponsiveNavLink href = {route('profile.edit')} >Profile</ResponsiveNavLink >
-                            <ResponsiveNavLink method = "post" href = {route('logout')} as = "button" >
+                            <ResponsiveNavLink href = {route('profile.edit')} className="text-[var(--text-color)]">Profile</ResponsiveNavLink >
+                            <ResponsiveNavLink method = "post" href = {route('logout')} as = "button" className="text-[var(--text-color)]">
                                 Log Out
                             </ResponsiveNavLink >
                         </div >
