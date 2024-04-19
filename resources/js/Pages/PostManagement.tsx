@@ -89,55 +89,55 @@ export default function PostManagement(props: PostManagementProps) {
         </div>
 
         <div className="mt-4 mb-5 max-w-screen max-h-screen overflow-auto dashboard-container">
-            <div className="mx-auto sm:px-6 lg:px-8">
-                <table className="divide-y divide-gray-200">
-                    <thead className="bg-gray-50">
-                        <tr>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Author</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">description</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
+            <div className = "mx-auto sm:px-6 lg:px-8" >
+z                <table className = "divide-y divide-gray-200" >
+                    <thead className = "bg-gray-50" >
+                        <tr >
+                            <th className = "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" >Author</th >
+                            <th className = "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" >Title</th >
+                            <th className = "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" >description</th >
+                            <th className = "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" >Actions</th >
+                        </tr >
+                    </thead >
+                    <tbody className = "bg-white divide-y divide-gray-200" >
                         {sortedCurrentItems.map((post: Post) => (
-                            <tr key={post.id}>
-                                <td className="px-6 py-4 whitespace-nowrap">{post.user.name}</td>
-                                <td className="px-6 py-4 whitespace-nowrap">{post.title}</td>
-                                <td className="px-6 py-4 whitespace-normal">{post.description}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <button onClick={() => handleEdit(post.id)}
-                                            className="px-4 py-2 rounded bg-indigo-600 text-white hover:bg-indigo-900 transition duration-200 edit-button">Edit</button>
+                            <tr key = {post.id} >
+                                <td className = "px-6 py-4 whitespace-nowrap" >{post.user.name}</td >
+                                <td className = "px-6 py-4 whitespace-nowrap" >{post.title}</td >
+                                <td className = "px-6 py-4 whitespace-normal" >{post.description}</td >
+                                <td className = "px-6 py-4 whitespace-nowrap text-right text-sm font-medium" >
+                                    <button onClick = {() => handleEdit(post.id)}
+                                            className = "px-4 py-2 rounded bg-indigo-600 text-white hover:bg-indigo-900 transition duration-200 edit-button" >Edit</button >
 
-                                    <button onClick={() => handleDelete(post.id)}
-                                            className="ml-4 px-4 py-2 rounded bg-red-600 text-white hover:bg-red-900 transition duration-200 delete-button">Delete</button>
-                                </td>
-                            </tr>
+                                    <button onClick = {() => handleDelete(post.id)}
+                                            className = "ml-4 px-4 py-2 rounded bg-red-600 text-white hover:bg-red-900 transition duration-200 delete-button" >Delete</button >
+                                </td >
+                            </tr >
                         ))}
-                    </tbody>
-                </table>
-                <div className="mt-4 flex items-center justify-between">
+                    </tbody >
+                </table >
+                <div className = "mt-4 flex items-center justify-between" >
                     <button
-                        onClick={handlePreviousClick}
-                        disabled={currentPage === 1}
-                        className={`px-4 py-2 rounded bg-blue-500 text-white ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-700'} previous-button`}
+                        onClick = {handlePreviousClick}
+                        disabled = {currentPage === 1}
+                        className = {`px-4 py-2 rounded bg-blue-500 text-white ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-700'} previous-button`}
                     >
                         Précédent
-                    </button>
-                    <div>
+                    </button >
+                    <div >
                         Page {currentPage} sur {totalPages}
-                    </div>
+                    </div >
                     <button
-                        onClick={handleNextClick}
-                        disabled={currentPage === totalPages}
-                        className={`px-4 py-2 rounded bg-blue-500 text-white ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-700'} next-button`}
+                        onClick = {handleNextClick}
+                        disabled = {currentPage === totalPages}
+                        className = {`px-4 py-2 rounded bg-blue-500 text-white ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-700'} next-button`}
                     >
                         Suivant
-                    </button>
-                </div>
-            </div>
-        </div>
-    </AuthenticatedLayout>
-);
+                    </button >
+                </div >
+            </div >
+        </div >
+    </AuthenticatedLayout >
+    );
 
 }

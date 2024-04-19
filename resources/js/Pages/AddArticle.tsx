@@ -70,40 +70,37 @@ const handleSubmit = async (e: React.FormEvent) => {
 };
 
     return (
-        <AuthenticatedLayout
-            user={auth.user}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Add post</h2>}
-        >
-            <form onSubmit={handleSubmit}  className="space-y-4">
-                <label className="block">
-                    <span className="text-gray-700">Title:</span>
-                    <input type="text" value={title} onChange={e => setTitle(e.target.value)} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
-                </label>
-                <label className="block">
-                    <span className="text-gray-700">Content:</span>
-                    <textarea value={body} onChange={e => setBody(e.target.value)} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
-                </label>
-                <label className="block">
-                    <span className="text-gray-700">Description:</span>
-                    <textarea value={description} onChange={e => setDescription(e.target.value)} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
-                </label>
-                <label className = "block" >
-                    <span className = "text-gray-700" >Image:</span >
-                    <input type = "file" onChange = {handleFileChange}
-                           className = "mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
-                </label >
-                 <label className = "block" >
-                    <span className = "text-gray-700" >Categories:</span >
-                    <select multiple value = {selectedCategories}
-                            onChange = {e => setSelectedCategories(Array.from(e.target.selectedOptions, option => option.value))}
-                            className = "mt-1 block w-full rounded-md border-gray-300 shadow-sm" >
-                        {categories.map((category, index) => (
-                            <option key = {index} value = {category.id} >{category.title}</option >
-                        ))}
-                    </select >
-                </label >
-                <button type = "submit" className = "mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700" >Add post</button >
-            </form >
-        </AuthenticatedLayout >
+       <AuthenticatedLayout
+    user={auth.user}
+    header={<h2 className="font-semibold text-xl text-gray-800 leading-tight dashboard-header">Add post</h2>}
+>
+    <form onSubmit={handleSubmit}  className="space-y-4 form-container">
+        <label className="block form-label">
+            <span className="text-gray-700">Title:</span>
+            <input type="text" value={title} onChange={e => setTitle(e.target.value)} className="mt-1 block w-full rounded-md form-input" />
+        </label>
+        <label className="block form-label">
+            <span className="text-gray-700">Content:</span>
+            <textarea value={body} onChange={e => setBody(e.target.value)} className="mt-1 block w-full rounded-md form-input" />
+        </label>
+        <label className="block form-label">
+            <span className="text-gray-700">Description:</span>
+            <textarea value={description} onChange={e => setDescription(e.target.value)} className="mt-1 block w-full rounded-md form-input" />
+        </label>
+        <label className="block form-label">
+            <span className="text-gray-700">Image:</span>
+            <input type="file" onChange={handleFileChange} className="mt-1 block w-full rounded-md form-input" />
+        </label>
+        <label className="block form-label">
+            <span className="text-gray-700">Categories:</span>
+            <select multiple value={selectedCategories} onChange={e => setSelectedCategories(Array.from(e.target.selectedOptions, option => option.value))} className="mt-1 block w-full rounded-md form-input">
+                {categories.map((category, index) => (
+                    <option key={index} value={category.id}>{category.title}</option>
+                ))}
+            </select>
+        </label>
+        <button type="submit" className="mt-2 px-4 py-2 rounded form-button">Add post</button>
+    </form>
+</AuthenticatedLayout>
     );
 }

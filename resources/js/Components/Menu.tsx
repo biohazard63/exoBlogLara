@@ -16,7 +16,7 @@ function Menu() {
             <Link href = "/" className = "mb-5" >
                 <ApplicationLogo className = "w-20 h-20 fill-current" />
             </Link >
-            <h1 className = "text-4xl font-bold  mb-8" >Accueil - Blog de jeux vidéo</h1 >
+            <h1 className = "text-4xl mx-10 text-white font-bold  mb-8" >Accueil - Blog de jeux vidéo</h1 >
                 <div
                     className = "relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in" >
                     <input type = "checkbox" name = "toggle" id = "toggle"

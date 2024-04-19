@@ -102,53 +102,56 @@ const CategoryManagement = (props: { auth: any, categories: Category[] }) => {
     return (
         <AuthenticatedLayout
             user = {auth.user}
-            header = {<h2 className = "font-semibold text-xl text-gray-800 leading-tight" >Category Management</h2 >}
+            header = {<h2 className = "font-semibold text-xl var(--text-color) leading-tight dashboard-header" >Category Management</h2 >}
         >
-        <Head title = "Category Management" />
-        <div className = "ml-9 mt-4 items-center" >
-        <Button onClick = {() => setModalIsOpen(true)} className="px-4 py-2 rounded bg-blue-500 text-white hover:bg-blue-700 transition duration-200">Add new category</Button>           <Modal
-               isOpen = {modalIsOpen}
-               onRequestClose = {() => setModalIsOpen(false)}
-               className = "flex items-center justify-center fixed left-0 bottom-0 w-full h-full bg-gray-800 bg-opacity-50"
-               contentLabel = "Modal"
-           >
-    <div className = "bg-white rounded-lg w-1/2" >
-        <div className = "flex flex-col items-start p-4" >
-            <div className = "flex items-center w-full" >
-                <div className = "text-gray-900 font-medium text-lg" >Add New Category</div >
-                <svg onClick = {() => setModalIsOpen(false)}
-                     className = "ml-auto fill-current text-gray-700 w-6 h-6 cursor-pointer"
-                     xmlns = "http://www.w3.org/2000/svg" viewBox = "0 0 18 18" >
-                    <path d = "M18 1.3L16.7 0 9 7.6 1.3 0 0 1.3 7.6 9 0 16.7 1.3 18 9 10.4l7.7 7.6 1.3-1.3L10.4 9z" />
-                </svg >
+    <Head title = "Category Management" />
+    <div className = "ml-9 mt-4 items-center add-category-button-container" >
+        <Button onClick = {() => setModalIsOpen(true)}
+                className = "px-4 py-2 rounded bg-blue-500 text-white hover:bg-blue-700 transition duration-200 add-category-button" >Add new category</Button >
+        <Modal
+            isOpen = {modalIsOpen}
+            onRequestClose = {() => setModalIsOpen(false)}
+            className = "flex items-center justify-center fixed left-0 bottom-0 w-full h-full bg-gray-800 bg-opacity-50 modal-container"
+            contentLabel = "Modal"
+        >
+            <div className = "bg-white rounded-lg w-1/2 modal-content" >
+                <div className = "flex flex-col items-start p-4 modal-header" >
+                    <div className = "text-gray-900 font-medium text-lg modal-title" >Add New Category</div >
+                    <svg onClick = {() => setModalIsOpen(false)}
+                         className = "ml-auto fill-current text-gray-700 w-6 h-6 cursor-pointer close-button"
+                         xmlns = "http://www.w3.org/2000/svg" viewBox = "0 0 18 18"
+                    >
+                        <path
+                            d = "M18 1.3L16.7 0 9 7.6 1.3 0 0 1.3 7.6 9 0 16.7 1.3 18 9 10.4l7.7 7.6 1.3-1.3L10.4 9z" />
+                    </svg >
+                </div >
+                <form onSubmit = {handleSubmit} className = "w-full mt-6 form-container" >
+                    <label className = "block mb-2 text-sm font-bold  form-label" >
+                        Name:
+                        <input type = "text" value = {title} onChange = {e => setTitle(e.target.value)}
+                               className = "w-full px-4 py-2 mt-2 text-sm  bg-white border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 form-input" />
+                    </label >
+                    <label className = "block mb-2 text-sm font-bold  form-label" >
+                        Description:
+                        <input type = "text" value = {description} onChange = {e => setDescription(e.target.value)}
+                               className = "w-full px-4 py-2 mt-2 text-sm  bg-white border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 form-input" />
+                    </label >
+                    <Button type = "submit"
+                            className = "w-full px-4 py-2 mt-6 font-medium text-white uppercase bg-blue-600 rounded-lg hover:bg-blue-500 focus:outline-none focus:shadow-outline form-button" >Submit</Button >
+                </form >
             </div >
-            <form onSubmit = {handleSubmit} className = "w-full mt-6" >
-                <label className = "block mb-2 text-sm font-bold text-gray-700" >
-                    Name:
-                    <input type = "text" value = {title} onChange = {e => setTitle(e.target.value)}
-                           className = "w-full px-4 py-2 mt-2 text-sm text-gray-700 bg-white border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500" />
-                </label >
-                <label className = "block mb-2 text-sm font-bold text-gray-700" >
-                    Description:
-                    <input type = "text" value = {description} onChange = {e => setDescription(e.target.value)}
-                           className = "w-full px-4 py-2 mt-2 text-sm text-gray-700 bg-white border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500" />
-                </label >
-                <Button type = "submit"
-                        className = "w-full px-4 py-2 mt-6 font-medium text-white uppercase bg-blue-600 rounded-lg hover:bg-blue-500 focus:outline-none focus:shadow-outline" >Submit</Button >
-            </form >
-        </div >
+        </Modal >
     </div >
-</Modal >
-        </div >
 
             {currentItems && (
-                <div className="flex justify-center items-center">
-                <table className="table-auto mx-auto">
-                <thead >
+
+                <div className = "flex justify-center items-center table-container" >
+            <table className = "table-auto mx-auto category-table" >
+                <thead className = "bg-gray-200" >
                     <tr >
-                        <th className = "px-4 py-2" >Category Name</th >
-                        <th className = "px-4 py-2" >Category Description</th >
-                        <th className = "px-4 py-2" >Actions</th >
+                        <th className = "px-4 py-2 table-header" >Category Name</th >
+                        <th className = "px-4 py-2 table-header" >Category Description</th >
+                        <th className = "px-4 py-2 table-header" >Actions</th >
                     </tr >
                 </thead >
                 <tbody >
@@ -158,36 +161,36 @@ const CategoryManagement = (props: { auth: any, categories: Category[] }) => {
                             <td className = "border px-4 py-2" >{category.description}</td >
                             <td className = "border px-4 py-2" >
                                 <Button onClick = {() => handleEdit(category.id)}
-        className = "mr-4 px-4 py-2 rounded bg-blue-500 text-white hover:bg-blue-700 transition duration-200">edit</Button>
+                                        className = "mr-4 px-4 py-2 rounded bg-blue-500 text-white hover:bg-blue-700 transition duration-200" >edit</Button >
 
 <Button onClick = {() => handleDelete(category.id)}
-        className = "px-4 py-2 rounded bg-red-500 text-white hover:bg-red-700 transition duration-200">delete</Button>
+        className = "px-4 py-2 rounded bg-red-500 text-white hover:bg-red-700 transition duration-200" >delete</Button >
                             </td >
                         </tr >
                 ))}
                 </tbody >
-                     <div className="mt-4 flex items-center justify-between">
+                     <div className = "mt-4 flex items-center justify-between" >
     <button
-        onClick={handlePreviousClick}
-        disabled={currentPage === 1}
-        className={`px-4 py-2 rounded bg-blue-500 text-white ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-700'} transition duration-200`}
+        onClick = {handlePreviousClick}
+        disabled = {currentPage === 1}
+        className = {`px-4 py-2 rounded bg-blue-500 text-white ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-700'} transition duration-200`}
     >
         Précédent
-    </button>
-    <div className="text-gray-700">
+    </button >
+    <div className = "text-gray-700" >
         Page {currentPage} sur {Math.ceil(categories.length / itemsPerPage)}
-    </div>
+    </div >
     <button
-        onClick={handleNextClick}
-        disabled={currentPage === Math.ceil(categories.length / itemsPerPage)}
-        className={`px-4 py-2 rounded bg-blue-500 text-white ${currentPage === Math.ceil(categories.length / itemsPerPage) ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-700'} transition duration-200`}
+        onClick = {handleNextClick}
+        disabled = {currentPage === Math.ceil(categories.length / itemsPerPage)}
+        className = {`px-4 py-2 rounded bg-blue-500 text-white ${currentPage === Math.ceil(categories.length / itemsPerPage) ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-700'} transition duration-200`}
     >
         Suivant
-    </button>
-</div>
+    </button >
+</div >
 
             </table >
-                </div>
+                </div >
             )}
     </AuthenticatedLayout >
     );

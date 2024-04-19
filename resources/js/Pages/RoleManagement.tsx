@@ -108,16 +108,14 @@ const RoleManagement: React.FC<RoleManagementProps> = ({ auth, users }) => {
         >
             <div className="flex justify-center">
                 <div className="p-6 mx-auto">
-                    <h1 className="text-2xl font-bold mb-4 text-center">Role Management</h1>
                     <table className="table-auto w-full">
-                        <thead>
-                            <tr>
-
-                                <th className="px-4 py-2">Name</th>
-                                <th className="px-4 py-2">Role</th>
-                                <th className="px-4 py-2">Actions</th>
-                            </tr>
-                        </thead>
+                        <thead className = "bg-gray-200" >
+                            <tr >
+                                <th className = "px-4 py-2" >Name</th >
+                                <th className = "px-4 py-2" >Role</th >
+                                <th className = "px-4 py-2" >Actions</th >
+                            </tr >
+                        </thead >
                         <tbody >
                            {currentItems.map(user => (
                                <tr key = {user.id} >
