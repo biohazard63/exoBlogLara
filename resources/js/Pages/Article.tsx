@@ -58,14 +58,14 @@ const [categories, setCategories] = useState<{id: string, title: string}[]>([]);
         <Layout user={auth.user}>
     <Head title="Articles" />
     <div className="container mx-auto px-4">
-        <select onChange={handleCategoryChange} className="border-2 border-gray-300 rounded-md p-2 my-2">
+        <select onChange={handleCategoryChange} className="border-2 border-gray-300 rounded-md  my-2">
             <option value="">All</option>
             {categories.map((category, index) => (
                 <option key={index} value={category.id}>{category.title}</option>
             ))}
         </select>
         <button onClick={handleFilterClick}
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Filter</button>
+                className="bg-blue-500 ml-2 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Filter</button>
 
         <div className="articles-grid">
             {filteredArticles ? [...filteredArticles].sort((a, b) => b.id - a.id).map((article) => (
@@ -75,7 +75,7 @@ const [categories, setCategories] = useState<{id: string, title: string}[]>([]);
                         <p className="mb-2">{article.description}</p>
                         <img src={article.image} alt={article.title} className="article-image"/>
                         {article.user &&
-                            <p className="text-sm text-gray-500 mt-2">Author: {article.user.name}</p>}
+                            <p className="text-sm text-black mt-2">Author: {article.user.name}</p>}
                     </div>
                 </Link>
             )) : <div className="text-center py-4">Loading...</div>}

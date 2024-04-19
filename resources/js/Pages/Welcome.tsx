@@ -19,22 +19,26 @@ export default ({auth, laravelVersion, phpVersion, articles}: PageProps<ArticleP
 
     return (
         <Layout user = {auth.user} >
-            <h2 className = "slogan text-center" >Welcome to the Blog!</h2 >
 
-            <div className = "containerIndex mx-auto px-4 sm:px-6 lg:px-8 py-8 w-4/5 flex flex-wrap items-center justify-center" >
+            <div
+                className = "containerIndex mx-auto px-4 sm:px-6 lg:px-8 py-8 w-4/5 " >
                 <Head title = "Welcome" />
+                            <h1 className = "text-4xl mx-10  font-bold  mb-8" >Accueil - Blog de jeux vidéo</h1 >
+            <div className="flex flex-wrap items-center justify-center">
                 {articles ? articles.map((article) => (
                     <Link key = {article.id} href = {`/articles/${article.id}`} >
                         <div className = "article-card flex flex-col items-center m-4" >
                             <div className = "article-cardChil px-4 py-5 sm:px-6" >
                                 <h2 className = "article-title text-center" >{article.title}</h2 >
                                 <p className = "article-description text-center" >{article.description}</p >
-                                <img src = {article.image} alt = {article.title} className = "article-image max-w-80 mt-4 items-center" />
+                                <img src = {article.image} alt = {article.title}
+                                     className = "article-image max-w-80 mt-4 items-center" />
                                 <p className = "article-author text-center" >Author: {article.user.name}</p >
                             </div >
                         </div >
                     </Link >
                 )) : 'Loading...'}
+                </div>
             </div >
         </Layout >
     );

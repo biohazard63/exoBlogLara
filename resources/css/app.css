@@ -28,11 +28,11 @@
     --spacing: 1rem; /* Adjust as needed */
     --spacing-small: 0.5rem; /* Adjust as needed */
     --transition-duration: 0.5s; /* Adjust as needed */
-    --primary-color: #FF69B4; /* Hot Pink */
-    --secondary-color: #00BFFF; /* Deep Sky Blue */
+    --primary-color: #ec2087; /* Hot Pink */
+    --secondary-color: #0880a9; /* Deep Sky Blue */
     --tertiary-color: #32CD32; /* Lime Green */
     --quaternary-color: #FFA500; /* Orange */
-    --background-color: #aeabab; /* White */
+    --background-color: #ce8282; /* White */
     --text-color: #000000; /* Black */
     --accent-color: #FF00FF; /* Neon Purple */
     --highlight-color: #FFFF00; /* Neon Yellow */
@@ -73,7 +73,7 @@ main {
     padding: 2rem;
     background-color: var(--highlight-color);
     color: var(--text-color);
-    margin-top: 2rem;
+    margin-top: 5rem;
     margin-bottom: 2rem;
 }
 
@@ -83,6 +83,7 @@ main {
     padding: 20px;
     background-color: var(--background-color);
     color: var(--text-color);
+    margin-top: 5rem;
 }
 
 .containerA {
@@ -572,10 +573,7 @@ td{
     cursor: pointer;
 }
 
-.form-container {
-    width: 100%;
-    margin-top: var(--spacing);
-}
+
 
 .form-label {
     display: block;

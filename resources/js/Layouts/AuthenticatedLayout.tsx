@@ -1,13 +1,13 @@
-import React, { useState, PropsWithChildren, ReactNode } from 'react';
+import React, {useState, PropsWithChildren, ReactNode} from 'react';
 import ApplicationLogo from '@/Components/ApplicationLogo';
 import Dropdown from '@/Components/Dropdown';
 import NavLink from '@/Components/NavLink';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
-import { Link } from '@inertiajs/react';
-import { User } from '@/types';
+import {Link} from '@inertiajs/react';
+import {User} from '@/types';
 import Footer from '@/Layouts/Footer';
 
-export default function Authenticated({ user, header, children }: PropsWithChildren<{ user: User, header?: ReactNode }>) {
+export default function Authenticated({user, header, children}: PropsWithChildren<{ user: User, header?: ReactNode }>) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
     const toggleTheme = () => {
         const currentTheme = document.documentElement.getAttribute('data-theme');
@@ -27,24 +27,32 @@ export default function Authenticated({ user, header, children }: PropsWithChild
                             </div >
                             {user.role_id === 1 && (
                                 <div className = "hidden space-x-8 sm:-my-px sm:ms-10 sm:flex" >
-                                    <NavLink href = {route('dashboard')} active = {route().current('dashboard')} className="text-[var(--text-color)]">
+                                    <NavLink href = {route('dashboard')} active = {route().current('dashboard')}
+                                             className = "text-[var(--text-color)]" >
                                         Dashboard
                                     </NavLink >
-                                    <NavLink href = {route('postmanagement')} active = {route().current('postmanagement')} className="text-[var(--text-color)]">
+                                    <NavLink href = {route('postmanagement')}
+                                             active = {route().current('postmanagement')}
+                                             className = "text-[var(--text-color)]" >
                                         Post management
                                     </NavLink >
-                                    <NavLink href = {route('role-management')} active = {route().current('role-management')} className="text-[var(--text-color)]">
+                                    <NavLink href = {route('role-management')}
+                                             active = {route().current('role-management')}
+                                             className = "text-[var(--text-color)]" >
                                         Role management
                                     </NavLink >
-                                    <NavLink href = {route('category-management')} active = {route().current('category-management')} className="text-[var(--text-color)]">
+                                    <NavLink href = {route('category-management')}
+                                             active = {route().current('category-management')}
+                                             className = "text-[var(--text-color)]" >
                                         Category management
                                     </NavLink >
-                                </div>
+                                </div >
                             )}
                         </div >
 
                         <div className = "hidden sm:flex sm:items-center sm:ms-6" >
-                            <div className = "relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in" >
+                            <div
+                                className = "relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in" >
                                 <input type = "checkbox" name = "toggle" id = "toggle"
                                        className = "toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
                                        onClick = {toggleTheme} />
@@ -77,15 +85,20 @@ export default function Authenticated({ user, header, children }: PropsWithChild
                                         </span >
                                     </Dropdown.Trigger >
 
-                                    <Dropdown.Content contentClasses="dropdown-menu">
+                                    <Dropdown.Content contentClasses = "dropdown-menu" >
                                         {[1, 2].includes(user.role_id) && (
-                                            <Dropdown.Link href={route('user-posts')} className="text-[var(--text-color)]">Mes articles</Dropdown.Link>
+                                            <Dropdown.Link href = {route('user-posts')}
+                                                           className = "text-[var(--text-color)]" >Mes articles</Dropdown.Link >
                                         )}
-                                        <Dropdown.Link href = {route('articles')} className="text-[var(--text-color)]">Articles</Dropdown.Link >
-                                        <Dropdown.Link href = {route('profile.edit')} className="text-[var(--text-color)]">Profile</Dropdown.Link >
-                                        <Dropdown.Link href = {route('abouts')} className="text-[var(--text-color)]">Abouts</Dropdown.Link >
-                                        <Dropdown.Link href = {route('legals')} className="text-[var(--text-color)]">Mention legals</Dropdown.Link >
-                                        <Dropdown.Link href = {route('logout')} method = "post" as = "button" className="text-[var(--text-color)]">
+                                        <Dropdown.Link href = {route('articles')}
+                                                       className = "text-[var(--text-color)]" >Articles</Dropdown.Link >
+                                        <Dropdown.Link href = {route('profile.edit')}
+                                                       className = "text-[var(--text-color)]" >Profile</Dropdown.Link >
+                                        <Dropdown.Link href = {route('abouts')}
+                                                       className = "text-[var(--text-color)]" >Abouts</Dropdown.Link >
+                                        <Dropdown.Link href = {route('legals')} className = "text-[var(--text-color)]" >Mention legals</Dropdown.Link >
+                                        <Dropdown.Link href = {route('logout')} method = "post" as = "button"
+                                                       className = "text-[var(--text-color)]" >
                                             Log Out
                                         </Dropdown.Link >
                                     </Dropdown.Content >
@@ -121,11 +134,13 @@ export default function Authenticated({ user, header, children }: PropsWithChild
 
                 <div className = {(showingNavigationDropdown ? 'block' : 'hidden') + ' sm:hidden'} >
                     <div className = "pt-2 pb-3 space-y-1" >
-                        <ResponsiveNavLink href = {route('dashboard')} active = {route().current('dashboard')} className="text-[var(--text-color)]">
+                        <ResponsiveNavLink href = {route('dashboard')} active = {route().current('dashboard')}
+                                           className = "text-[var(--text-color)]" >
                             Dashboard
                         </ResponsiveNavLink >
 
-                        <ResponsiveNavLink href = {route('postmanagement')} active = {route().current('postmanagement')} className="text-[var(--text-color)]">
+                        <ResponsiveNavLink href = {route('postmanagement')} active = {route().current('postmanagement')}
+                                           className = "text-[var(--text-color)]" >
                             Post management
                         </ResponsiveNavLink >
                     </div >
@@ -139,8 +154,10 @@ export default function Authenticated({ user, header, children }: PropsWithChild
                         </div >
 
                         <div className = "mt-3 space-y-1" >
-                            <ResponsiveNavLink href = {route('profile.edit')} className="text-[var(--text-color)]">Profile</ResponsiveNavLink >
-                            <ResponsiveNavLink method = "post" href = {route('logout')} as = "button" className="text-[var(--text-color)]">
+                            <ResponsiveNavLink href = {route('profile.edit')}
+                                               className = "text-[var(--text-color)]" >Profile</ResponsiveNavLink >
+                            <ResponsiveNavLink method = "post" href = {route('logout')} as = "button"
+                                               className = "text-[var(--text-color)]" >
                                 Log Out
                             </ResponsiveNavLink >
                         </div >
