@@ -54,7 +54,7 @@ const handleSubmit = async (e: React.FormEvent) => {
         });
         if (response.status === 201) {
             console.log("Article successfully created");
-            window.location.href = '/postmanagement';
+            window.location.href = '/user-posts';
         } else {
             console.log("Error creating article, status code:", response.status);
         }
