@@ -21,9 +21,10 @@ class PostsTableSeeder extends Seeder
         // Get all category ids
         $categoryIds = Category::all()->pluck('id')->toArray();
 
-        // Assign each post to a random category
+        // Assign each post to up to 3 random categories
         foreach ($posts as $post) {
-            $post->categories()->attach($faker->randomElement($categoryIds));
+            $randomCategoryIds = $faker->randomElements($categoryIds, rand(1, 3));
+            $post->categories()->attach($randomCategoryIds);
         }
     }
 }

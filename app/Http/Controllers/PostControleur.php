@@ -67,6 +67,28 @@ class PostControleur extends Controller
         return response()->json(['message' => 'Article successfully created', 'post' => $post], 201);
     }
 
+    public function update(Request $request, $id)
+    {
+        $post = Post::find($id);
+
+
+        if ($post) {
+            $post->title = $request->input('title');
+            $post->description = $request->input('description');
+            $post->body = $request->input('body');
+            $post->image = $request->input('image');
+            $post->save();
+
+            $categoryIds = $request->category_ids; // les IDs des catégories à associer au post
+            $post->categories()->attach($categoryIds);
+
+            return redirect()->route('user-posts');
+        } else {
+            return response()->json(['message' => 'Article not found'], 404);
+        }
+    }
+
+
     public function destroy($id)
     {
         $post = Post::find($id);
@@ -95,25 +117,6 @@ class PostControleur extends Controller
     }
 }
 
-    public function update(Request $request, $id)
-    {
-        $post = Post::find($id);
-
-        if ($post) {
-            $post->title = $request->input('title');
-            $post->description = $request->input('description');
-            $post->body = $request->input('body');
-            $post->image = $request->input('image');
-            $post->save();
-
-            $categoryIds = $request->category_ids; // les IDs des catégories à associer au post
-            $post->categories()->attach($categoryIds);
-
-            return redirect()->route('postmanagement');
-        } else {
-            return response()->json(['message' => 'Article not found'], 404);
-        }
-    }
 
     public function userPosts()
     {
